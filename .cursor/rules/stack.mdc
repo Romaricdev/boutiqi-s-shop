@@ -1,0 +1,71 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Tech Stack – Plateforme DOOH Accent Media
+
+### 1. Frontend
+
+* **Framework** : Next.js (App Router) pour SSR/SSG, routing simple et support PWA.
+* **CSS** : Tailwind CSS pour utilitaires rapides et thèmes dynamiques.
+* **Animations & 3D** :
+
+  * Framer Motion : animations au scroll, transitions partagées, micro-interactions.
+  * React Three Fiber + Drei : rendu WebGL 3D (carte, totems, heat-maps).
+  * Lottie : animations vectorielles légères pour icônes et loaders.
+* **Data Fetching** :
+
+  * React Query (TanStack Query) pour caching, invalidation, polling.
+  * tRPC (optionnel) pour API typée bout en bout.
+* **State Management** : Zustand pour store global léger (auth, filtres, UI state).
+* **Map Library** : Deck.gl + Mapbox-GL pour carte interactive et visualisation de données.
+* **PWA** : configuration manifest.json, service workers via Workbox.
+
+### 2. Backend & BaaS
+
+* **Database** : Supabase (PostgreSQL) :
+
+  * Auth intégré (JWT, social, MFA)
+  * Realtime (WebSockets) pour notifications et mises à jour live
+  * Storage pour médias (images, vidéos)
+  * Edge Functions (TypeScript) pour logique business serverless
+* **API** :
+
+  * Supabase REST/GraphQL auto-généré
+  * Edge Functions pour traitements lourds (calcul audience, rapports)
+
+### 3. Infrastructure & CI/CD
+
+* **Hosting** : Vercel pour Next.js (déploiement continu, preview branches).
+* **Environnements** : DEV, STAGING, PROD via Vercel Environment Variables.
+* **Monitoring & Logging** :
+
+  * Sentry pour erreurs front & back
+  * Logflare (via Supabase) pour requêtes DB et Edge Functions
+* **CI** : GitHub Actions (lint, build, tests) – à venir, manuel en phase actuelle.
+
+### 4. Payments & Auth
+
+* **Paiements** : Stripe + intégration Mobile Money (API locales).
+* **Auth** : Supabase Auth (email/SSO), avec règles RLS pour sécuriser accès (annonceurs, hébergeurs, admin).
+
+### 5. Analytics & BI
+
+* **Tracking** : analytics events stockés dans Supabase (table analytics\_events).
+* **Dashboards** : Recharts ou Chart.js pour visuels sur front.
+* **Exports** : CSV via Edge Functions pour reporting externe.
+
+### 6. Dev Tools & Quality
+
+* **Linting** : ESLint + Prettier
+* **Type Checking** : TypeScript strict mode
+* **Testing** : Jest + React Testing Library
+* **Utilities** : Day.js pour dates, Zod pour schémas de validation
+* **Mocking** : MSW (Mock Service Worker) en dev/test
+
+---
+
+*Cette stack modulaire et full‑JavaScript garantit rapidité de développement, cohérence des données et expérience UX/DOOH immersive.*
+

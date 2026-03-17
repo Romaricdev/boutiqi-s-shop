@@ -1,0 +1,20 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+– Développement modulaire par phases claires (voir modules ci-dessus)
+– Chaque phase doit être validée manuellement avant d’enclencher la suivante
+– L’IA doit proposer une checklist à valider à chaque étape
+– Proposer des tests unitaires et tests d’intégration
+– Générer un changelog clair par phase
+– Toujours permettre de rollback en cas de régression
+– Générer un résumé de dépendances utilisées par module
+– Prioriser la stabilité et cohérence du codebase
+– S’assurer que l’IA garde la vision produit sur toutes les phases
+- Expliquer et détailler le workflow de la fonctionnalité à implémenter et demander une validation avant implémentation
+- lorsque nous faisons une implémentation et que les rules causent des incohérentes ou des bugs ou des soucis, et que nous parvenons à le resoudre, mets à jour le/les rules concernés pour ne pas impacter la suite du développementet optimiser notre avancement
+- Lorsque nous apportons des ajouts/taches qui ne sont pas clairement spécifiés dans notre plan d'implementationou notre task-prd, mets à jour le task-prd et le plan d'implémentation pour inclure les ajouts qu'on a fait afin de mieux suivre l'évolution du projet
+- Toute implémentation backend qui doit impacter une interface front existante doit se faire conformément à l'interface existante, et ne doit en aucun cas altérer le rendu ui ou l'interface ui telle qu'elle a été construite et validé. Dans le cas ou l'implémentation nécessite de modifier la vue front existante, demander la validation et essayer d'apporter le moins de changement ui possible et garder le rendu visuel le plus proche du rendu initial trouvé dans la vue ui. Ceci pour éviter que tu modifies de manière intempestive des vues qu'on a déjà conçu et validé et altérer le rendu.
+
+- Le développement des nouvelles interfaces ui, doit rester dans la logique des interfaces concues en terme de cohérente et de consistence ui/ux. Elle peuvent avoir leur spécificité mais doivent respecter les règles ui/ux général du projet pour garantir une certaine uniformité générale, ou cohérence générale

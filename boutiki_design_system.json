@@ -1,0 +1,804 @@
+{
+  "meta": {
+    "project": "Boutiki",
+    "version": "1.0.0",
+    "description": "Design system complet pour la plateforme Boutiki — SaaS boutique WhatsApp Cameroun",
+    "font_source": "Google Fonts",
+    "last_updated": "2026-03"
+  },
+
+  "typography": {
+    "fonts": {
+      "display": {
+        "family": "DM Serif Display",
+        "google_import": "@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap')",
+        "usage": "Logo wordmark et grands titres de landing page uniquement",
+        "fallback": "Georgia, serif"
+      },
+      "body": {
+        "family": "Plus Jakarta Sans",
+        "google_import": "@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap')",
+        "usage": "Toute l'interface — dashboard, boutique, formulaires, navigation",
+        "weights": [400, 500, 600, 700],
+        "fallback": "system-ui, -apple-system, sans-serif"
+      }
+    },
+    "scale": {
+      "h1": {
+        "size": "28px",
+        "weight": 700,
+        "line_height": "1.2",
+        "letter_spacing": "-0.5px",
+        "font": "Plus Jakarta Sans",
+        "usage": "Titre de page principal"
+      },
+      "h2": {
+        "size": "22px",
+        "weight": 600,
+        "line_height": "1.3",
+        "letter_spacing": "-0.3px",
+        "font": "Plus Jakarta Sans",
+        "usage": "Titre de section majeure"
+      },
+      "h3": {
+        "size": "17px",
+        "weight": 600,
+        "line_height": "1.4",
+        "letter_spacing": "0",
+        "font": "Plus Jakarta Sans",
+        "usage": "Sous-titre, en-tête de card"
+      },
+      "body_lg": {
+        "size": "15px",
+        "weight": 400,
+        "line_height": "1.65",
+        "letter_spacing": "0",
+        "font": "Plus Jakarta Sans",
+        "usage": "Texte courant principal"
+      },
+      "body": {
+        "size": "14px",
+        "weight": 400,
+        "line_height": "1.6",
+        "letter_spacing": "0",
+        "font": "Plus Jakarta Sans",
+        "usage": "Corps de texte standard, descriptions produit"
+      },
+      "body_medium": {
+        "size": "14px",
+        "weight": 500,
+        "line_height": "1.6",
+        "letter_spacing": "0",
+        "font": "Plus Jakarta Sans",
+        "usage": "Labels de formulaire, noms dans les listes"
+      },
+      "small": {
+        "size": "12px",
+        "weight": 400,
+        "line_height": "1.5",
+        "letter_spacing": "0",
+        "font": "Plus Jakarta Sans",
+        "usage": "Métadonnées, horodatages, texte secondaire"
+      },
+      "label": {
+        "size": "11px",
+        "weight": 600,
+        "line_height": "1.4",
+        "letter_spacing": "0.08em",
+        "text_transform": "uppercase",
+        "font": "Plus Jakarta Sans",
+        "usage": "Labels de section, étiquettes de catégorie"
+      },
+      "price": {
+        "size": "18px",
+        "weight": 700,
+        "line_height": "1.2",
+        "letter_spacing": "-0.3px",
+        "font": "Plus Jakarta Sans",
+        "usage": "Prix produit, montants de commande"
+      },
+      "stat": {
+        "size": "26px",
+        "weight": 700,
+        "line_height": "1.1",
+        "letter_spacing": "-0.5px",
+        "font": "Plus Jakarta Sans",
+        "usage": "Valeurs dans les cartes métriques du dashboard"
+      },
+      "logo": {
+        "size": "22px",
+        "weight": 400,
+        "line_height": "1",
+        "letter_spacing": "-0.5px",
+        "font": "DM Serif Display",
+        "usage": "Wordmark Boutiki dans la navigation"
+      }
+    }
+  },
+
+  "colors": {
+    "brand": {
+      "primary": {
+        "50":  "#E8F5EC",
+        "100": "#C8E8D4",
+        "200": "#96D4B0",
+        "300": "#5FB98A",
+        "400": "#40916C",
+        "500": "#2D6A4F",
+        "600": "#1E6B3C",
+        "700": "#1A3D2B",
+        "800": "#122B1E",
+        "900": "#0A1C14"
+      },
+      "accent": {
+        "50":  "#FEF8F5",
+        "100": "#FBF0EA",
+        "200": "#F2CCBA",
+        "300": "#E8B49A",
+        "400": "#D4936B",
+        "500": "#C0714A",
+        "600": "#A0522D",
+        "700": "#7D4E24",
+        "800": "#5C3A1E",
+        "900": "#3D2410"
+      }
+    },
+    "neutral": {
+      "50":  "#F7F5F0",
+      "100": "#F0EDE6",
+      "200": "#E0DDD5",
+      "300": "#C5C0B5",
+      "400": "#A09E95",
+      "500": "#6B705C",
+      "600": "#4A4A3A",
+      "700": "#3A3A2E",
+      "800": "#2D2B24",
+      "900": "#1C1A17"
+    },
+    "status": {
+      "success": {
+        "bg":     "#E8F5EC",
+        "border": "#95D5B2",
+        "text":   "#1E6B3C",
+        "icon":   "#2D6A4F"
+      },
+      "warning": {
+        "bg":     "#FEF6E4",
+        "border": "#F2C94C",
+        "text":   "#8B5A00",
+        "icon":   "#D4A017"
+      },
+      "danger": {
+        "bg":     "#FEF5F4",
+        "border": "#F5B7B1",
+        "text":   "#922B21",
+        "icon":   "#C0392B"
+      },
+      "info": {
+        "bg":     "#EBF5FB",
+        "border": "#A9CCE3",
+        "text":   "#1A5276",
+        "icon":   "#2471A3"
+      }
+    },
+    "order_status": {
+      "new": {
+        "bg":   "#E8F5EC",
+        "text": "#1E6B3C",
+        "dot":  "#2D6A4F",
+        "label": "Nouvelle"
+      },
+      "confirmed": {
+        "bg":   "#EBF5FB",
+        "text": "#1A5276",
+        "dot":  "#2471A3",
+        "label": "Confirmée"
+      },
+      "preparing": {
+        "bg":   "#FEF6E4",
+        "text": "#8B5A00",
+        "dot":  "#D4A017",
+        "label": "En préparation"
+      },
+      "delivering": {
+        "bg":   "#FBF0EA",
+        "text": "#7D4E24",
+        "dot":  "#A0522D",
+        "label": "En livraison"
+      },
+      "delivered": {
+        "bg":   "#F0EDE6",
+        "text": "#4A4A3A",
+        "dot":  "#6B705C",
+        "label": "Livrée"
+      },
+      "cancelled": {
+        "bg":   "#FEF5F4",
+        "text": "#922B21",
+        "dot":  "#C0392B",
+        "label": "Annulée"
+      }
+    },
+    "surface": {
+      "page":       "#F7F5F0",
+      "card":       "#FFFFFF",
+      "card_muted": "#F7F5F0",
+      "overlay":    "rgba(28, 26, 23, 0.45)",
+      "nav":        "#FFFFFF",
+      "sidebar":    "#F0EDE6"
+    }
+  },
+
+  "spacing": {
+    "scale": {
+      "1":  "4px",
+      "2":  "8px",
+      "3":  "12px",
+      "4":  "16px",
+      "5":  "20px",
+      "6":  "24px",
+      "8":  "32px",
+      "10": "40px",
+      "12": "48px",
+      "16": "64px"
+    },
+    "semantic": {
+      "component_gap":    "8px",
+      "card_padding":     "16px",
+      "card_padding_lg":  "24px",
+      "section_gap":      "32px",
+      "page_padding_x":   "16px",
+      "page_padding_x_lg":"32px",
+      "form_field_gap":   "16px",
+      "inline_gap":       "8px",
+      "list_item_gap":    "4px"
+    }
+  },
+
+  "border_radius": {
+    "none":   "0",
+    "xs":     "4px",
+    "sm":     "8px",
+    "md":     "12px",
+    "lg":     "16px",
+    "xl":     "20px",
+    "full":   "9999px",
+    "semantic": {
+      "button":       "8px",
+      "input":        "8px",
+      "card":         "12px",
+      "card_lg":      "16px",
+      "badge":        "9999px",
+      "avatar":       "9999px",
+      "modal":        "20px",
+      "notification": "10px",
+      "toast":        "10px",
+      "tag":          "6px"
+    }
+  },
+
+  "borders": {
+    "default":   "0.5px solid #E0DDD5",
+    "muted":     "0.5px solid #F0EDE6",
+    "strong":    "1px solid #C5C0B5",
+    "brand":     "1px solid #2D6A4F",
+    "danger":    "1px solid #F5B7B1",
+    "focus_ring":"0 0 0 3px rgba(45, 106, 79, 0.18)"
+  },
+
+  "shadows": {
+    "none":   "none",
+    "sm":     "0 1px 3px rgba(28,26,23,0.07)",
+    "md":     "0 2px 8px rgba(28,26,23,0.09)",
+    "lg":     "0 4px 16px rgba(28,26,23,0.10)",
+    "note":   "Utiliser avec parcimonie. Boutiki favorise les bordures sur les ombres."
+  },
+
+  "components": {
+    "button": {
+      "base": {
+        "font_family":   "Plus Jakarta Sans",
+        "font_size":     "14px",
+        "font_weight":   600,
+        "line_height":   "1",
+        "border_radius": "8px",
+        "cursor":        "pointer",
+        "transition":    "opacity 0.15s ease, transform 0.1s ease",
+        "active_transform": "scale(0.97)"
+      },
+      "sizes": {
+        "sm": { "height": "30px", "padding": "0 12px", "font_size": "12px" },
+        "md": { "height": "38px", "padding": "0 16px", "font_size": "14px" },
+        "lg": { "height": "46px", "padding": "0 24px", "font_size": "15px" }
+      },
+      "variants": {
+        "primary": {
+          "background":        "#2D6A4F",
+          "color":             "#F7F5F0",
+          "border":            "none",
+          "hover_opacity":     0.88,
+          "disabled_opacity":  0.45,
+          "usage":             "Action principale — Confirmer, Passer commande, Enregistrer"
+        },
+        "secondary": {
+          "background":        "#F0EDE6",
+          "color":             "#2D6A4F",
+          "border":            "1px solid #C5C0B5",
+          "hover_background":  "#E0DDD5",
+          "usage":             "Action secondaire — Annuler, Retour, Voir détails"
+        },
+        "ghost": {
+          "background":        "transparent",
+          "color":             "#2D6A4F",
+          "border":            "1px solid #2D6A4F",
+          "hover_background":  "#E8F5EC",
+          "usage":             "Action tertiaire ou sur fond coloré"
+        },
+        "danger": {
+          "background":        "#C0392B",
+          "color":             "#FFFFFF",
+          "border":            "none",
+          "hover_opacity":     0.88,
+          "usage":             "Actions destructives — Supprimer, Annuler commande"
+        },
+        "text": {
+          "background":        "transparent",
+          "color":             "#2D6A4F",
+          "border":            "none",
+          "hover_background":  "#F0EDE6",
+          "usage":             "Liens-actions dans du texte ou des tableaux"
+        }
+      }
+    },
+
+    "input": {
+      "base": {
+        "font_family":   "Plus Jakarta Sans",
+        "font_size":     "14px",
+        "font_weight":   400,
+        "height":        "38px",
+        "padding":       "0 12px",
+        "border_radius": "8px",
+        "background":    "#FFFFFF",
+        "color":         "#1C1A17",
+        "border":        "1px solid #C5C0B5",
+        "transition":    "border-color 0.15s, box-shadow 0.15s"
+      },
+      "states": {
+        "default":  { "border": "1px solid #C5C0B5" },
+        "hover":    { "border": "1px solid #6B705C" },
+        "focus":    { "border": "1px solid #2D6A4F", "box_shadow": "0 0 0 3px rgba(45,106,79,0.18)" },
+        "error":    { "border": "1px solid #C0392B", "box_shadow": "0 0 0 3px rgba(192,57,43,0.12)" },
+        "disabled": { "background": "#F0EDE6", "color": "#A09E95", "cursor": "not-allowed" }
+      },
+      "label": {
+        "font_size":   "12px",
+        "font_weight": 500,
+        "color":       "#3A3A2E",
+        "margin_bottom":"4px"
+      },
+      "hint": {
+        "font_size":  "11px",
+        "margin_top": "4px",
+        "default":    "#6B705C",
+        "error":      "#C0392B"
+      },
+      "textarea": {
+        "min_height":  "90px",
+        "padding":     "10px 12px",
+        "resize":      "vertical"
+      }
+    },
+
+    "card": {
+      "base": {
+        "background":    "#FFFFFF",
+        "border":        "0.5px solid #E0DDD5",
+        "border_radius": "12px",
+        "padding":       "16px"
+      },
+      "variants": {
+        "default":   { "background": "#FFFFFF", "border": "0.5px solid #E0DDD5" },
+        "muted":     { "background": "#F7F5F0", "border": "none" },
+        "brand":     { "background": "#E8F5EC", "border": "1px solid #95D5B2" },
+        "featured":  { "background": "#FFFFFF", "border": "2px solid #2D6A4F" },
+        "danger":    { "background": "#FEF5F4", "border": "1px solid #F5B7B1" }
+      },
+      "hover": {
+        "border_color":  "#A09E95",
+        "transform":     "translateY(-1px)",
+        "transition":    "border-color 0.15s, transform 0.15s"
+      }
+    },
+
+    "badge": {
+      "base": {
+        "font_family":   "Plus Jakarta Sans",
+        "font_size":     "11px",
+        "font_weight":   600,
+        "border_radius": "9999px",
+        "padding":       "3px 10px",
+        "display":       "inline-flex",
+        "align_items":   "center",
+        "gap":           "5px"
+      },
+      "variants": {
+        "order_new":        { "background": "#E8F5EC", "color": "#1E6B3C" },
+        "order_confirmed":  { "background": "#EBF5FB", "color": "#1A5276" },
+        "order_preparing":  { "background": "#FEF6E4", "color": "#8B5A00" },
+        "order_delivering": { "background": "#FBF0EA", "color": "#7D4E24" },
+        "order_delivered":  { "background": "#F0EDE6", "color": "#4A4A3A" },
+        "order_cancelled":  { "background": "#FEF5F4", "color": "#922B21" },
+        "plan_free":        { "background": "#F0EDE6", "color": "#4A4A3A" },
+        "plan_pro":         { "background": "#2D6A4F", "color": "#B7E4C7" },
+        "plan_business":    { "background": "#1A3D2B", "color": "#95D5B2" },
+        "stock_ok":         { "background": "#E8F5EC", "color": "#1E6B3C" },
+        "stock_low":        { "background": "#FEF6E4", "color": "#8B5A00" },
+        "stock_out":        { "background": "#FEF5F4", "color": "#922B21" }
+      }
+    },
+
+    "avatar": {
+      "base": {
+        "border_radius": "9999px",
+        "font_family":   "Plus Jakarta Sans",
+        "font_weight":   600,
+        "display":       "flex",
+        "align_items":   "center",
+        "justify_content": "center",
+        "background":    "#E8F5EC",
+        "color":         "#1E6B3C"
+      },
+      "sizes": {
+        "xs": { "width": "24px", "height": "24px", "font_size": "10px" },
+        "sm": { "width": "32px", "height": "32px", "font_size": "12px" },
+        "md": { "width": "40px", "height": "40px", "font_size": "14px" },
+        "lg": { "width": "52px", "height": "52px", "font_size": "18px" },
+        "xl": { "width": "72px", "height": "72px", "font_size": "24px" }
+      }
+    },
+
+    "notification": {
+      "container": {
+        "border_radius": "10px",
+        "padding":       "12px 14px",
+        "display":       "flex",
+        "gap":           "10px",
+        "margin_bottom": "8px"
+      },
+      "dot": {
+        "width":         "8px",
+        "height":        "8px",
+        "border_radius": "9999px",
+        "margin_top":    "4px",
+        "flex_shrink":   0
+      },
+      "types": {
+        "order_new":    { "background": "#F0F8F4", "dot_color": "#2D6A4F" },
+        "payment":      { "background": "#EBF5FB", "dot_color": "#2471A3" },
+        "stock_low":    { "background": "#FEF9F0", "dot_color": "#D4A017" },
+        "stock_out":    { "background": "#FEF5F4", "dot_color": "#C0392B" },
+        "system":       { "background": "#F7F5F0", "dot_color": "#6B705C" }
+      },
+      "text": {
+        "title":     { "font_size": "13px", "font_weight": 600, "color": "#1C1A17" },
+        "subtitle":  { "font_size": "12px", "font_weight": 400, "color": "#6B705C" },
+        "timestamp": { "font_size": "11px", "font_weight": 400, "color": "#A09E95" }
+      },
+      "unread_indicator": {
+        "width":         "6px",
+        "height":        "6px",
+        "border_radius": "9999px",
+        "background":    "#C0392B",
+        "position":      "absolute",
+        "top":           "4px",
+        "right":         "4px"
+      }
+    },
+
+    "toast": {
+      "base": {
+        "border_radius": "10px",
+        "padding":       "12px 16px",
+        "font_size":     "13px",
+        "font_weight":   500,
+        "display":       "flex",
+        "align_items":   "center",
+        "gap":           "10px",
+        "max_width":     "340px",
+        "animation":     "slideUp 0.2s ease"
+      },
+      "variants": {
+        "success": { "background": "#1C1A17", "color": "#F7F5F0", "dot": "#52B788" },
+        "warning": { "background": "#FEF6E4", "color": "#8B5A00",  "border": "0.5px solid #F2C94C", "dot": "#D4A017" },
+        "error":   { "background": "#FEF5F4", "color": "#922B21",  "border": "0.5px solid #F5B7B1", "dot": "#C0392B" },
+        "info":    { "background": "#EBF5FB", "color": "#1A5276",  "border": "0.5px solid #A9CCE3", "dot": "#2471A3" }
+      },
+      "duration_ms": 4000,
+      "position":    "bottom-center (mobile) / bottom-right (desktop)"
+    },
+
+    "product_card": {
+      "container": {
+        "background":    "#FFFFFF",
+        "border":        "0.5px solid #E0DDD5",
+        "border_radius": "12px",
+        "overflow":      "hidden"
+      },
+      "image": {
+        "aspect_ratio":  "4/3",
+        "background":    "#F7F5F0",
+        "object_fit":    "cover"
+      },
+      "body": {
+        "padding":       "12px"
+      },
+      "name": {
+        "font_size":     "13px",
+        "font_weight":   600,
+        "color":         "#1C1A17",
+        "margin_bottom": "4px",
+        "line_clamp":    2
+      },
+      "price": {
+        "font_size":     "15px",
+        "font_weight":   700,
+        "color":         "#2D6A4F",
+        "margin_bottom": "8px"
+      },
+      "stock": {
+        "font_size":     "11px",
+        "available":     "#6B705C",
+        "low":           "#8B5A00",
+        "out":           "#C0392B"
+      }
+    },
+
+    "order_card": {
+      "container": {
+        "background":    "#FFFFFF",
+        "border":        "0.5px solid #E0DDD5",
+        "border_radius": "12px",
+        "padding":       "14px"
+      },
+      "order_id":   { "font_size": "13px", "font_weight": 700, "color": "#1C1A17" },
+      "timestamp":  { "font_size": "11px", "color": "#A09E95" },
+      "customer":   { "font_size": "13px", "font_weight": 500, "color": "#3A3A2E" },
+      "detail":     { "font_size": "12px", "color": "#6B705C" },
+      "divider":    { "border_top": "0.5px solid #E8E4DC", "margin": "10px 0" },
+      "amount":     { "font_size": "15px", "font_weight": 700, "color": "#1C1A17" }
+    },
+
+    "stat_card": {
+      "container": {
+        "background":    "#F7F5F0",
+        "border_radius": "10px",
+        "padding":       "14px",
+        "border":        "none"
+      },
+      "label": {
+        "font_size":     "11px",
+        "font_weight":   500,
+        "color":         "#6B705C",
+        "margin_bottom": "6px"
+      },
+      "value": {
+        "font_size":     "26px",
+        "font_weight":   700,
+        "color":         "#1C1A17",
+        "letter_spacing":"-0.5px"
+      },
+      "delta": {
+        "font_size":     "11px",
+        "margin_top":    "4px",
+        "positive":      "#1E6B3C",
+        "negative":      "#922B21",
+        "neutral":       "#6B705C"
+      }
+    },
+
+    "navigation": {
+      "desktop": {
+        "height":         "52px",
+        "background":     "#FFFFFF",
+        "border_bottom":  "0.5px solid #E0DDD5",
+        "padding_x":      "16px",
+        "logo_font":      "DM Serif Display",
+        "logo_size":      "20px",
+        "logo_color":     "#2D6A4F",
+        "item_font_size": "13px",
+        "item_font_weight":500,
+        "item_color":     "#6B705C",
+        "item_active_color": "#2D6A4F",
+        "item_active_border":"2px solid #2D6A4F"
+      },
+      "mobile_bottom": {
+        "height":         "58px",
+        "background":     "#FFFFFF",
+        "border_top":     "0.5px solid #E0DDD5",
+        "padding_bottom": "8px",
+        "icon_size":      "22px",
+        "label_font_size":"10px",
+        "label_font_weight":500,
+        "active_color":   "#2D6A4F",
+        "inactive_color": "#A09E95"
+      }
+    },
+
+    "divider": {
+      "default":   "0.5px solid #E0DDD5",
+      "strong":    "1px solid #C5C0B5",
+      "brand":     "2px solid #2D6A4F"
+    },
+
+    "empty_state": {
+      "icon_size":        "48px",
+      "icon_color":       "#C5C0B5",
+      "title_font_size":  "16px",
+      "title_font_weight":600,
+      "title_color":      "#3A3A2E",
+      "body_font_size":   "14px",
+      "body_color":       "#6B705C",
+      "gap":              "12px"
+    }
+  },
+
+  "layout": {
+    "breakpoints": {
+      "xs":  "0px",
+      "sm":  "480px",
+      "md":  "768px",
+      "lg":  "1024px",
+      "xl":  "1280px"
+    },
+    "container": {
+      "max_width":         "1200px",
+      "padding_x_mobile":  "16px",
+      "padding_x_desktop": "32px"
+    },
+    "grid": {
+      "product_mobile":    "repeat(2, 1fr)",
+      "product_tablet":    "repeat(3, 1fr)",
+      "product_desktop":   "repeat(4, 1fr)",
+      "dashboard_stats":   "repeat(2, 1fr) on mobile / repeat(4, 1fr) on desktop",
+      "gap":               "12px"
+    },
+    "sidebar_width": "240px",
+    "nav_height":    "52px",
+    "mobile_nav_height": "58px"
+  },
+
+  "motion": {
+    "duration": {
+      "instant":  "80ms",
+      "fast":     "150ms",
+      "normal":   "220ms",
+      "slow":     "350ms"
+    },
+    "easing": {
+      "default":   "ease",
+      "in":        "ease-in",
+      "out":       "ease-out",
+      "spring":    "cubic-bezier(0.34, 1.56, 0.64, 1)"
+    },
+    "transitions": {
+      "button":    "opacity 150ms ease, transform 100ms ease",
+      "card_hover":"border-color 150ms ease, transform 150ms ease",
+      "input":     "border-color 150ms ease, box-shadow 150ms ease",
+      "modal":     "opacity 220ms ease, transform 220ms ease",
+      "toast":     "transform 220ms cubic-bezier(0.34,1.56,0.64,1), opacity 220ms ease"
+    }
+  },
+
+  "icons": {
+    "library":    "Lucide React (https://lucide.dev)",
+    "sizes": {
+      "xs":  "14px",
+      "sm":  "16px",
+      "md":  "20px",
+      "lg":  "24px",
+      "xl":  "32px"
+    },
+    "color_default":   "currentColor",
+    "stroke_width":    1.75,
+    "key_icons": {
+      "dashboard":     "LayoutDashboard",
+      "orders":        "ShoppingBag",
+      "products":      "Package",
+      "stats":         "TrendingUp",
+      "settings":      "Settings",
+      "notification":  "Bell",
+      "store":         "Store",
+      "cart":          "ShoppingCart",
+      "user":          "User",
+      "delivery":      "Truck",
+      "payment":       "Banknote",
+      "stock":         "Layers",
+      "search":        "Search",
+      "add":           "Plus",
+      "edit":          "Pencil",
+      "delete":        "Trash2",
+      "check":         "Check",
+      "close":         "X",
+      "chevron_right": "ChevronRight",
+      "link":          "Link",
+      "qr":            "QrCode",
+      "share":         "Share2"
+    }
+  },
+
+  "css_variables": {
+    "comment": "À déclarer dans globals.css — :root {}",
+    "tokens": {
+      "--font-display":        "'DM Serif Display', Georgia, serif",
+      "--font-body":           "'Plus Jakarta Sans', system-ui, sans-serif",
+      "--color-brand":         "#2D6A4F",
+      "--color-brand-light":   "#E8F5EC",
+      "--color-brand-dark":    "#1A3D2B",
+      "--color-accent":        "#A0522D",
+      "--color-accent-light":  "#FBF0EA",
+      "--color-surface":       "#F7F5F0",
+      "--color-card":          "#FFFFFF",
+      "--color-border":        "#E0DDD5",
+      "--color-border-strong": "#C5C0B5",
+      "--color-text-primary":  "#1C1A17",
+      "--color-text-secondary":"#6B705C",
+      "--color-text-muted":    "#A09E95",
+      "--color-success":       "#1E6B3C",
+      "--color-success-bg":    "#E8F5EC",
+      "--color-warning":       "#8B5A00",
+      "--color-warning-bg":    "#FEF6E4",
+      "--color-danger":        "#922B21",
+      "--color-danger-bg":     "#FEF5F4",
+      "--color-info":          "#1A5276",
+      "--color-info-bg":       "#EBF5FB",
+      "--radius-sm":           "8px",
+      "--radius-md":           "12px",
+      "--radius-lg":           "16px",
+      "--radius-full":         "9999px",
+      "--shadow-sm":           "0 1px 3px rgba(28,26,23,0.07)",
+      "--shadow-md":           "0 2px 8px rgba(28,26,23,0.09)",
+      "--nav-height":          "52px",
+      "--mobile-nav-height":   "58px"
+    }
+  },
+
+  "tailwind_config": {
+    "comment": "Extension à ajouter dans tailwind.config.js",
+    "extend": {
+      "fontFamily": {
+        "display": ["DM Serif Display", "Georgia", "serif"],
+        "body":    ["Plus Jakarta Sans", "system-ui", "sans-serif"]
+      },
+      "colors": {
+        "brand": {
+          "50":  "#E8F5EC",
+          "100": "#C8E8D4",
+          "400": "#40916C",
+          "500": "#2D6A4F",
+          "600": "#1E6B3C",
+          "700": "#1A3D2B"
+        },
+        "accent": {
+          "100": "#FBF0EA",
+          "500": "#C0714A",
+          "600": "#A0522D"
+        },
+        "warm": {
+          "50":  "#F7F5F0",
+          "100": "#F0EDE6",
+          "200": "#E0DDD5",
+          "400": "#A09E95",
+          "600": "#4A4A3A",
+          "900": "#1C1A17"
+        }
+      },
+      "borderRadius": {
+        "sm":   "8px",
+        "md":   "12px",
+        "lg":   "16px",
+        "xl":   "20px"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Coding pattern preferences
+– Favoriser les solutions simples
+– Éviter les duplications
+– Tenir compte des environnements (dev, test, prod)
+– Ne changer que ce qui est demandé ou bien compris
+– Ne pas introduire de nouvelle techno sans justification
+– Supprimer toute logique obsolète si remplacement effectué
+– Code propre, lisible, fichiers < 400 lignes
+– Scripts isolés uniquement si usage récurrent
+– Pas de données mockées en dev/prod, uniquement pour tests
+
+– Ne jamais écraser mon .env sans confirmation

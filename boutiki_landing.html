@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boutiki — Commerce simplifié</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand:       #2D6A4F;
+  --brand-deep:  #1A3D2B;
+  --brand-mid:   #40916C;
+  --brand-soft:  #52B788;
+  --brand-pale:  #95D5B2;
+  --brand-ghost: #D8F3DC;
+  --brand-mist:  #E8F5EC;
+  --accent:      #C0714A;
+  --accent-warm: #A0522D;
+  --accent-pale: #F2CCBA;
+  --gold:        #D4A017;
+  --gold-pale:   #FEF6E4;
+  --neutral-900: #1C1A17;
+  --neutral-800: #2D2B24;
+  --neutral-700: #3A3A2E;
+  --neutral-500: #6B705C;
+  --neutral-300: #C5C0B5;
+  --neutral-200: #E0DDD5;
+  --neutral-100: #F0EDE6;
+  --neutral-50:  #F7F5F0;
+  --white:       #FFFFFF;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--neutral-50);
+  color: var(--neutral-900);
+  overflow-x: hidden;
+}
+
+/* ── NAV ───────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 64px;
+  background: rgba(247,245,240,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(224,221,213,0.6);
+  animation: fadeDown 0.6s ease both;
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 22px; color: var(--brand);
+  letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--brand);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--neutral-500);
+  text-decoration: none; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--brand); }
+.nav-cta {
+  display: flex; align-items: center; gap: 12px;
+}
+.btn-nav-login {
+  font-size: 14px; font-weight: 500; color: var(--neutral-700);
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-body); padding: 8px 16px;
+  border-radius: 8px; transition: background 0.15s;
+}
+.btn-nav-login:hover { background: var(--neutral-100); }
+.btn-nav-start {
+  font-size: 14px; font-weight: 600; color: var(--white);
+  background: var(--brand); border: none; cursor: pointer;
+  font-family: var(--font-body); padding: 10px 20px;
+  border-radius: 8px; transition: background 0.15s, transform 0.1s;
+}
+.btn-nav-start:hover { background: var(--brand-deep); transform: translateY(-1px); }
+
+/* ── HERO ──────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0;
+  padding: 80px 0 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-bg-pattern {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+}
+.hero-bg-pattern::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -80px;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: var(--brand-mist);
+  opacity: 0.7;
+}
+.hero-bg-pattern::after {
+  content: '';
+  position: absolute;
+  bottom: 80px; left: -60px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: var(--accent-pale);
+  opacity: 0.35;
+}
+.hero-dots {
+  position: absolute; top: 120px; left: 48px;
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 18px;
+  opacity: 0.18;
+}
+.hero-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--brand);
+}
+
+.hero-left {
+  padding: 0 64px 80px 64px;
+  position: relative; z-index: 1;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--brand-mist);
+  border: 1px solid var(--brand-ghost);
+  border-radius: 100px;
+  padding: 6px 14px 6px 8px;
+  margin-bottom: 28px;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+.eyebrow-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--brand-soft);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform: scale(1); }
+  50% { opacity:0.5; transform: scale(1.3); }
+}
+.hero-eyebrow span {
+  font-size: 12px; font-weight: 600;
+  color: var(--brand); letter-spacing: 0.04em;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 62px);
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+  color: var(--neutral-900);
+  margin-bottom: 24px;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--brand);
+}
+.hero-title .accent-word {
+  position: relative; display: inline-block;
+}
+.hero-title .accent-word::after {
+  content: '';
+  position: absolute; bottom: 2px; left: 0; right: 0;
+  height: 3px; background: var(--accent);
+  border-radius: 2px;
+}
+
+.hero-desc {
+  font-size: 17px; font-weight: 400;
+  color: var(--neutral-500);
+  line-height: 1.7; max-width: 440px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.7s 0.3s ease both;
+}
+
+.hero-actions {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 52px;
+  animation: fadeUp 0.7s 0.4s ease both;
+}
+.btn-hero-primary {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 28px; border-radius: 10px;
+  background: var(--brand); color: var(--white);
+  font-family: var(--font-body); font-size: 15px; font-weight: 600;
+  border: none; cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-hero-primary:hover { background: var(--brand-deep); transform: translateY(-2px); }
+.btn-hero-primary svg { transition: transform 0.2s; }
+.btn-hero-primary:hover svg { transform: translateX(3px); }
+
+.btn-hero-secondary {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 24px; border-radius: 10px;
+  background: transparent; color: var(--neutral-700);
+  font-family: var(--font-body); font-size: 15px; font-weight: 500;
+  border: 1.5px solid var(--neutral-200); cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-hero-secondary:hover { border-color: var(--neutral-300); background: var(--white); }
+
+.hero-social-proof {
+  display: flex; align-items: center; gap: 16px;
+  animation: fadeUp 0.7s 0.5s ease both;
+}
+.proof-avatars {
+  display: flex;
+}
+.proof-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2.5px solid var(--neutral-50);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  margin-left: -10px;
+  color: var(--white);
+}
+.proof-avatar:first-child { margin-left: 0; }
+.av1 { background: #2D6A4F; }
+.av2 { background: #C0714A; }
+.av3 { background: #1A5276; }
+.av4 { background: #7D4E24; }
+
+.proof-text { font-size: 13px; color: var(--neutral-500); }
+.proof-text strong { color: var(--neutral-700); font-weight: 600; }
+
+.proof-divider {
+  width: 1px; height: 28px; background: var(--neutral-200);
+}
+.proof-stars { display: flex; gap: 2px; }
+.star { color: var(--gold); font-size: 14px; }
+.proof-rating { font-size: 13px; color: var(--neutral-500); margin-left: 4px; }
+
+/* ── HERO RIGHT — PHONE MOCKUP ──────────────────────────── */
+.hero-right {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 64px 80px 0;
+  animation: fadeLeft 0.9s 0.3s ease both;
+}
+
+.phone-frame {
+  width: 280px;
+  background: var(--neutral-900);
+  border-radius: 44px;
+  padding: 12px;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(28,26,23,0.22), 0 0 0 1px rgba(255,255,255,0.08);
+}
+.phone-notch {
+  width: 90px; height: 28px;
+  background: var(--neutral-900);
+  border-radius: 0 0 18px 18px;
+  margin: 0 auto 8px;
+  position: relative; z-index: 2;
+}
+.phone-screen {
+  background: var(--neutral-50);
+  border-radius: 34px;
+  overflow: hidden;
+  min-height: 580px;
+}
+
+/* Shop screen inside phone */
+.shop-header {
+  background: var(--white);
+  padding: 14px 16px 10px;
+  border-bottom: 0.5px solid var(--neutral-200);
+}
+.shop-name {
+  font-size: 15px; font-weight: 700; color: var(--neutral-900);
+  font-family: var(--font-display);
+}
+.shop-meta {
+  font-size: 10px; color: var(--neutral-500); margin-top: 1px;
+}
+.shop-meta span {
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.open-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #27AE60; display: inline-block;
+}
+
+.shop-cats {
+  display: flex; gap: 6px; padding: 10px 16px;
+  background: var(--white);
+  border-bottom: 0.5px solid var(--neutral-200);
+  overflow-x: auto;
+}
+.cat-pill {
+  white-space: nowrap;
+  padding: 4px 10px; border-radius: 20px;
+  font-size: 10px; font-weight: 600;
+  background: var(--neutral-100); color: var(--neutral-500);
+  border: none; cursor: pointer;
+}
+.cat-pill.active {
+  background: var(--brand-mist); color: var(--brand);
+  border: 1px solid var(--brand-ghost);
+}
+
+.shop-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; padding: 10px 10px;
+  background: var(--neutral-100);
+}
+.shop-product {
+  background: var(--white);
+  border-radius: 10px; overflow: hidden;
+  border: 0.5px solid var(--neutral-200);
+}
+.product-img-ph {
+  height: 80px;
+  display: flex; align-items: center; justify-content: center;
+}
+.p1 { background: linear-gradient(135deg, #E8F5EC 0%, #B7E4C7 100%); }
+.p2 { background: linear-gradient(135deg, #FBF0EA 0%, #F2CCBA 100%); }
+.p3 { background: linear-gradient(135deg, #EBF5FB 0%, #A9CCE3 100%); }
+.p4 { background: linear-gradient(135deg, #FEF6E4 0%, #F2C94C 50%); }
+.product-info { padding: 7px 8px 8px; }
+.p-name { font-size: 10px; font-weight: 600; color: var(--neutral-900); margin-bottom: 2px; }
+.p-price { font-size: 11px; font-weight: 700; color: var(--brand); }
+.p-add {
+  width: 20px; height: 20px; border-radius: 6px;
+  background: var(--brand); color: var(--white);
+  border: none; font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  float: right; margin-top: -18px; margin-right: 0;
+}
+
+.shop-cart-bar {
+  background: var(--brand);
+  margin: 0 10px 10px; border-radius: 10px;
+  padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cart-info { font-size: 11px; color: rgba(247,245,240,0.8); }
+.cart-total { font-size: 13px; font-weight: 700; color: var(--white); }
+.cart-btn {
+  background: var(--white); color: var(--brand);
+  border: none; border-radius: 7px;
+  padding: 5px 10px; font-size: 10px; font-weight: 700;
+  cursor: pointer; font-family: var(--font-body);
+}
+
+/* Floating cards around phone */
+.float-card {
+  position: absolute;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 32px rgba(28,26,23,0.12), 0 0 0 0.5px rgba(224,221,213,0.8);
+  animation: floatY 4s ease-in-out infinite;
+}
+.fc-order {
+  left: -110px; top: 80px;
+  width: 160px;
+  animation-delay: 0s;
+}
+.fc-payment {
+  right: -90px; top: 160px;
+  width: 150px;
+  animation-delay: -2s;
+}
+.fc-stock {
+  left: -90px; bottom: 140px;
+  width: 140px;
+  animation-delay: -1s;
+}
+@keyframes floatY {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.fc-label {
+  font-size: 9px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--neutral-500); margin-bottom: 5px;
+}
+.fc-value {
+  font-size: 16px; font-weight: 700; color: var(--neutral-900);
+  font-family: var(--font-display);
+}
+.fc-sub { font-size: 10px; color: var(--neutral-500); margin-top: 2px; }
+.fc-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px; border-radius: 20px;
+  font-size: 9px; font-weight: 600; margin-top: 4px;
+}
+.fc-badge.green { background: var(--brand-mist); color: var(--brand); }
+.fc-badge.amber { background: var(--gold-pale); color: #8B5A00; }
+.fc-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+.fc-progress {
+  height: 4px; background: var(--neutral-100); border-radius: 2px;
+  margin-top: 8px; overflow: hidden;
+}
+.fc-progress-fill {
+  height: 100%; border-radius: 2px;
+}
+
+/* ── SECTION: COMMENT ÇA MARCHE ──────────────────────────── */
+.how-section {
+  padding: 120px 64px;
+  background: var(--white);
+  position: relative; overflow: hidden;
+}
+.how-section::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px; background: var(--neutral-200);
+}
+
+.section-eyebrow {
+  text-align: center;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.eyebrow-line {
+  width: 40px; height: 1px; background: var(--brand-pale);
+}
+.eyebrow-text {
+  font-size: 12px; font-weight: 600; color: var(--brand);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.12; letter-spacing: -1px;
+  text-align: center; color: var(--neutral-900);
+  margin-bottom: 16px;
+}
+.section-title em { font-style: italic; color: var(--brand); }
+.section-sub {
+  text-align: center; font-size: 16px; color: var(--neutral-500);
+  max-width: 480px; margin: 0 auto 72px;
+  line-height: 1.7;
+}
+
+.steps-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  max-width: 960px; margin: 0 auto;
+  background: var(--neutral-200);
+  border-radius: 20px; overflow: hidden;
+}
+.step-item {
+  background: var(--white);
+  padding: 40px 36px;
+  position: relative;
+  transition: background 0.2s;
+}
+.step-item:hover { background: var(--neutral-50); }
+
+.step-num {
+  font-family: var(--font-display);
+  font-size: 56px; line-height: 1;
+  color: var(--brand-ghost);
+  margin-bottom: 20px;
+  letter-spacing: -2px;
+}
+.step-icon-wrap {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--brand-mist);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.step-title {
+  font-size: 18px; font-weight: 700;
+  color: var(--neutral-900);
+  margin-bottom: 10px; letter-spacing: -0.3px;
+}
+.step-desc {
+  font-size: 14px; color: var(--neutral-500);
+  line-height: 1.65;
+}
+.step-arrow {
+  position: absolute; right: 20px; bottom: 20px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--brand-mist);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── SECTION: FEATURES ───────────────────────────────────── */
+.features-section {
+  padding: 120px 64px;
+  background: var(--neutral-50);
+}
+
+.features-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center;
+  max-width: 1100px; margin: 0 auto;
+}
+.features-list { display: flex; flex-direction: column; gap: 8px; }
+.feature-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px 24px; border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: 1.5px solid transparent;
+}
+.feature-item:hover { background: var(--white); border-color: var(--neutral-200); }
+.feature-item.active {
+  background: var(--white);
+  border-color: var(--brand-ghost);
+}
+.feature-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--brand-mist);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.feature-item.active .feature-icon { background: var(--brand); }
+.feature-text-title {
+  font-size: 15px; font-weight: 600; color: var(--neutral-900);
+  margin-bottom: 4px;
+}
+.feature-text-desc {
+  font-size: 13px; color: var(--neutral-500); line-height: 1.55;
+}
+
+.feature-visual {
+  background: var(--white);
+  border-radius: 24px;
+  border: 1px solid var(--neutral-200);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.dashboard-preview {
+  width: 100%; height: 100%;
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.dash-header {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.dash-title { font-size: 14px; font-weight: 700; color: var(--neutral-900); }
+.dash-date { font-size: 11px; color: var(--neutral-500); }
+.dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.dash-stat {
+  background: var(--neutral-50); border-radius: 10px; padding: 10px 12px;
+}
+.ds-label { font-size: 9px; color: var(--neutral-500); font-weight: 500; margin-bottom: 4px; }
+.ds-value { font-size: 18px; font-weight: 700; color: var(--neutral-900); font-family: var(--font-display); }
+.ds-delta { font-size: 9px; color: var(--brand); font-weight: 600; margin-top: 2px; }
+
+.dash-orders { flex: 1; }
+.do-label { font-size: 11px; font-weight: 600; color: var(--neutral-700); margin-bottom: 8px; }
+.order-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 0; border-bottom: 0.5px solid var(--neutral-100);
+}
+.or-id { font-size: 10px; font-weight: 700; color: var(--neutral-900); min-width: 28px; }
+.or-name { font-size: 10px; color: var(--neutral-600); flex: 1; }
+.or-amount { font-size: 10px; font-weight: 700; color: var(--neutral-900); }
+.or-badge {
+  font-size: 8px; font-weight: 600; padding: 2px 6px;
+  border-radius: 20px;
+}
+.orb-new { background: var(--brand-mist); color: var(--brand); }
+.orb-prep { background: var(--gold-pale); color: #8B5A00; }
+.orb-done { background: var(--neutral-100); color: var(--neutral-500); }
+
+/* ── SECTION: PRICING ────────────────────────────────────── */
+.pricing-section {
+  padding: 120px 64px;
+  background: var(--neutral-900);
+  position: relative; overflow: hidden;
+}
+.pricing-section::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(45,106,79,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pricing-section .section-title { color: var(--neutral-50); }
+.pricing-section .section-sub { color: var(--neutral-500); }
+.pricing-section .eyebrow-text { color: var(--brand-soft); }
+.pricing-section .eyebrow-line { background: var(--brand); }
+
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; max-width: 960px; margin: 0 auto;
+}
+.price-card {
+  background: rgba(247,245,240,0.05);
+  border: 1px solid rgba(224,221,213,0.12);
+  border-radius: 20px; padding: 32px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.price-card:hover { border-color: rgba(224,221,213,0.25); transform: translateY(-4px); }
+.price-card.featured {
+  background: var(--brand);
+  border-color: var(--brand-mid);
+  position: relative;
+}
+.featured-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: var(--neutral-900);
+  font-size: 11px; font-weight: 700; padding: 4px 14px;
+  border-radius: 20px; white-space: nowrap;
+}
+.plan-name {
+  font-size: 13px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--neutral-500); margin-bottom: 20px;
+}
+.price-card.featured .plan-name { color: var(--brand-ghost); }
+
+.price-amount {
+  font-family: var(--font-display);
+  font-size: 42px; color: var(--neutral-50); line-height: 1;
+  margin-bottom: 4px; letter-spacing: -1.5px;
+}
+.price-card.featured .price-amount { color: var(--white); }
+.price-unit { font-size: 13px; color: var(--neutral-500); margin-bottom: 28px; }
+.price-card.featured .price-unit { color: rgba(232,245,236,0.7); }
+
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.pf-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--neutral-300); line-height: 1.45;
+}
+.price-card.featured .pf-item { color: var(--brand-ghost); }
+.pf-check {
+  width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+  background: rgba(95,213,178,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px;
+}
+.price-card.featured .pf-check { background: rgba(255,255,255,0.15); }
+
+.price-cta {
+  width: 100%; margin-top: 28px;
+  padding: 13px; border-radius: 10px;
+  font-family: var(--font-body); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+}
+.cta-outline {
+  background: transparent; color: var(--neutral-300);
+  border: 1px solid rgba(224,221,213,0.2);
+}
+.cta-outline:hover { border-color: rgba(224,221,213,0.5); color: var(--white); }
+.cta-solid {
+  background: var(--white); color: var(--brand);
+  border: none;
+}
+.cta-solid:hover { background: var(--brand-ghost); }
+
+/* ── SOCIAL PROOF BAR ────────────────────────────────────── */
+.proof-bar {
+  padding: 40px 64px;
+  background: var(--brand-mist);
+  border-top: 1px solid var(--brand-ghost);
+  border-bottom: 1px solid var(--brand-ghost);
+  display: flex; align-items: center; justify-content: center;
+  gap: 64px; flex-wrap: wrap;
+}
+.proof-stat {
+  text-align: center;
+}
+.ps-value {
+  font-family: var(--font-display);
+  font-size: 36px; color: var(--brand);
+  letter-spacing: -1px;
+}
+.ps-label { font-size: 13px; color: var(--neutral-500); margin-top: 2px; }
+.proof-divider-v { width: 1px; height: 40px; background: var(--brand-ghost); }
+
+/* ── TESTIMONIALS ────────────────────────────────────────── */
+.testi-section {
+  padding: 120px 64px;
+  background: var(--white);
+}
+.testi-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px; max-width: 1100px; margin: 0 auto;
+}
+.testi-card {
+  background: var(--neutral-50);
+  border: 1px solid var(--neutral-200);
+  border-radius: 18px; padding: 28px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.testi-card:hover { border-color: var(--brand-pale); transform: translateY(-2px); }
+.testi-stars { display: flex; gap: 3px; margin-bottom: 16px; }
+.testi-text {
+  font-size: 15px; color: var(--neutral-700);
+  line-height: 1.7; margin-bottom: 24px;
+  font-style: italic;
+}
+.testi-text::before { content: '"'; color: var(--brand-pale); font-size: 28px; font-family: var(--font-display); line-height: 0; vertical-align: -8px; margin-right: 2px; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.ta-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: var(--white);
+}
+.ta-name { font-size: 14px; font-weight: 600; color: var(--neutral-900); }
+.ta-role { font-size: 12px; color: var(--neutral-500); }
+
+/* ── CTA FINAL ───────────────────────────────────────────── */
+.cta-section {
+  padding: 120px 64px;
+  background: var(--neutral-50);
+  text-align: center;
+}
+.cta-box {
+  max-width: 600px; margin: 0 auto;
+  background: var(--brand-deep);
+  border-radius: 28px;
+  padding: 64px 48px;
+  position: relative; overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: rgba(82,183,136,0.15);
+}
+.cta-box::after {
+  content: '';
+  position: absolute; bottom: -60px; left: -60px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: rgba(192,113,74,0.12);
+}
+.cta-title {
+  font-family: var(--font-display);
+  font-size: 42px; line-height: 1.1; letter-spacing: -1px;
+  color: var(--white); margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+.cta-title em { font-style: italic; color: var(--brand-soft); }
+.cta-sub {
+  font-size: 16px; color: rgba(247,245,240,0.65);
+  margin-bottom: 36px; line-height: 1.6;
+  position: relative; z-index: 1;
+}
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 32px; border-radius: 12px;
+  background: var(--white); color: var(--brand-deep);
+  font-family: var(--font-body); font-size: 16px; font-weight: 700;
+  border: none; cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+  position: relative; z-index: 1;
+}
+.cta-btn:hover { transform: translateY(-2px); background: var(--brand-ghost); }
+.cta-note {
+  margin-top: 16px; font-size: 12px;
+  color: rgba(247,245,240,0.45);
+  position: relative; z-index: 1;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  background: var(--neutral-900);
+  padding: 56px 64px 32px;
+}
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; margin-bottom: 48px;
+}
+.footer-brand { }
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 22px; color: var(--neutral-50);
+  letter-spacing: -0.5px; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.footer-desc {
+  font-size: 14px; color: var(--neutral-500);
+  line-height: 1.65; max-width: 260px;
+}
+.footer-col-title {
+  font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--neutral-300);
+  margin-bottom: 16px;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 14px; color: var(--neutral-500);
+  text-decoration: none; transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--neutral-50); }
+.footer-bottom {
+  border-top: 1px solid rgba(224,221,213,0.1);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-copy { font-size: 13px; color: var(--neutral-500); }
+.footer-flag { font-size: 13px; color: var(--neutral-500); display: flex; align-items: center; gap: 6px; }
+
+/* ── ANIMATIONS ──────────────────────────────────────────── */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="20" height="20" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 22L13 13L23 27L29 18L37 27" stroke="#B7E4C7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="33" cy="13" r="4" fill="#95D5B2"/>
+        <path d="M7 35Q22 30 37 35" stroke="#52B788" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    Boutiki
+  </div>
+  <ul class="nav-links">
+    <li><a href="#how">Comment ça marche</a></li>
+    <li><a href="#features">Fonctionnalités</a></li>
+    <li><a href="#pricing">Tarifs</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn-nav-login">Connexion</button>
+    <button class="btn-nav-start">Créer ma boutique</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-dots">
+    <script>for(let i=0;i<40;i++) document.write('<div class="hero-dot"></div>')</script>
+  </div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span>Lancé à Douala — Gratuit pour commencer</span>
+    </div>
+    <h1 class="hero-title">
+      Votre boutique<br>
+      <em>en ligne</em> en<br>
+      <span class="accent-word">5&nbsp;minutes</span>
+    </h1>
+    <p class="hero-desc">
+      Créez votre catalogue, partagez un lien sur WhatsApp et recevez des commandes payées en Mobile Money — sans app, sans formation.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-hero-primary">
+        Démarrer gratuitement
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <button class="btn-hero-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z" fill="currentColor" stroke="none"/></svg>
+        Voir la démo
+      </button>
+    </div>
+    <div class="hero-social-proof">
+      <div class="proof-avatars">
+        <div class="proof-avatar av1">MS</div>
+        <div class="proof-avatar av2">JK</div>
+        <div class="proof-avatar av3">AF</div>
+        <div class="proof-avatar av4">CN</div>
+      </div>
+      <div class="proof-text"><strong>+240 commerçants</strong> font confiance à Boutiki</div>
+      <div class="proof-divider"></div>
+      <div class="proof-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <span class="proof-rating">4.9/5</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <!-- Floating cards -->
+    <div class="float-card fc-order">
+      <div class="fc-label">Nouvelle commande</div>
+      <div class="fc-value">#047</div>
+      <div class="fc-sub">Marie Fotso — Akwa</div>
+      <div class="fc-badge green"><div class="fc-dot"></div>22 500 FCFA</div>
+    </div>
+
+    <div class="float-card fc-payment">
+      <div class="fc-label">Paiement reçu</div>
+      <div class="fc-value">18k</div>
+      <div class="fc-sub">MTN MoMo confirmé</div>
+      <div class="fc-progress"><div class="fc-progress-fill" style="width:75%;background:#2D6A4F"></div></div>
+    </div>
+
+    <div class="float-card fc-stock">
+      <div class="fc-label">Stock critique</div>
+      <div class="fc-value">2</div>
+      <div class="fc-sub">Robe wax bleue</div>
+      <div class="fc-badge amber"><div class="fc-dot"></div>Réapprovisionner</div>
+    </div>
+
+    <!-- Phone -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="shop-header">
+          <div class="shop-name">Boutique Solange</div>
+          <div class="shop-meta">
+            <span><div class="open-dot"></div> Ouvert · Akwa, Douala</span>
+          </div>
+        </div>
+        <div class="shop-cats">
+          <button class="cat-pill active">Tout</button>
+          <button class="cat-pill">Robes</button>
+          <button class="cat-pill">Sacs</button>
+          <button class="cat-pill">Bijoux</button>
+        </div>
+        <div class="shop-grid">
+          <div class="shop-product">
+            <div class="product-img-ph p1">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#40916C" stroke-width="1.5"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H7v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V10h3.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+            </div>
+            <div class="product-info">
+              <div class="p-name">Robe wax bleue</div>
+              <div class="p-price">14 500 FCFA</div>
+              <button class="p-add">+</button>
+            </div>
+          </div>
+          <div class="shop-product">
+            <div class="product-img-ph p2">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A0522D" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+            </div>
+            <div class="product-info">
+              <div class="p-name">Sac cuir marron</div>
+              <div class="p-price">28 000 FCFA</div>
+              <button class="p-add">+</button>
+            </div>
+          </div>
+          <div class="shop-product">
+            <div class="product-img-ph p3">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2471A3" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M12 13v8M8 17h8"/></svg>
+            </div>
+            <div class="product-info">
+              <div class="p-name">Collier doré</div>
+              <div class="p-price">7 500 FCFA</div>
+              <button class="p-add">+</button>
+            </div>
+          </div>
+          <div class="shop-product">
+            <div class="product-img-ph p4">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8B5A00" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            </div>
+            <div class="product-info">
+              <div class="p-name">Chaussure wax</div>
+              <div class="p-price">19 900 FCFA</div>
+              <button class="p-add">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="shop-cart-bar">
+          <div>
+            <div class="cart-info">2 articles · Panier</div>
+            <div class="cart-total">42 500 FCFA</div>
+          </div>
+          <button class="cart-btn">Commander →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof-bar reveal">
+  <div class="proof-stat"><div class="ps-value">240+</div><div class="ps-label">Boutiques actives</div></div>
+  <div class="proof-divider-v"></div>
+  <div class="proof-stat"><div class="ps-value">12k+</div><div class="ps-label">Commandes traitées</div></div>
+  <div class="proof-divider-v"></div>
+  <div class="proof-stat"><div class="ps-value">48M</div><div class="ps-label">FCFA traités</div></div>
+  <div class="proof-divider-v"></div>
+  <div class="proof-stat"><div class="ps-value">4.9/5</div><div class="ps-label">Satisfaction commerçants</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-eyebrow reveal">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Comment ça marche</span>
+    <div class="eyebrow-line"></div>
+  </div>
+  <h2 class="section-title reveal">Trois étapes.<br><em>C'est tout.</em></h2>
+  <p class="section-sub reveal">Pas de formation, pas de technicien. Si vous avez WhatsApp, vous avez Boutiki.</p>
+
+  <div class="steps-grid reveal">
+    <div class="step-item">
+      <div class="step-num">01</div>
+      <div class="step-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <div class="step-title">Créez votre catalogue</div>
+      <div class="step-desc">Ajoutez vos produits avec photo, prix et stock depuis votre téléphone. 5 minutes pour tout configurer.</div>
+      <div class="step-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">02</div>
+      <div class="step-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+      </div>
+      <div class="step-title">Partagez votre lien</div>
+      <div class="step-desc">Un lien unique pour votre boutique. Partagez-le sur votre statut WhatsApp et vos groupes. Vos clients commandent directement.</div>
+      <div class="step-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">03</div>
+      <div class="step-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+      </div>
+      <div class="step-title">Encaissez en Mobile Money</div>
+      <div class="step-desc">MTN MoMo ou Orange Money. Le paiement est automatiquement confirmé. Vous gérez depuis votre dashboard.</div>
+      <div class="step-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-eyebrow reveal">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Fonctionnalités</span>
+    <div class="eyebrow-line"></div>
+  </div>
+  <h2 class="section-title reveal">Tout ce dont vous<br><em>avez besoin.</em></h2>
+  <p class="section-sub reveal">Conçu pour les commerçants camerounais. Pas un outil importé, adapté.</p>
+
+  <div class="features-grid reveal">
+    <div class="features-list">
+      <div class="feature-item active">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <div class="feature-text-title">Dashboard en temps réel</div>
+          <div class="feature-text-desc">Commandes du jour, CA, stock critique — tout en un coup d'œil dès l'ouverture.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+        </div>
+        <div>
+          <div class="feature-text-title">Paiement Mobile Money natif</div>
+          <div class="feature-text-desc">MTN MoMo et Orange Money intégrés. Confirmation automatique sans manipulation.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 3H8L4 7h16l-4-4z"/></svg>
+        </div>
+        <div>
+          <div class="feature-text-title">Gestion de stock automatique</div>
+          <div class="feature-text-desc">Le stock se décrémente à chaque commande. Alertes quand un produit est presque épuisé.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <div>
+          <div class="feature-text-title">Notifications in-app</div>
+          <div class="feature-text-desc">Alertes instantanées pour chaque nouvelle commande et paiement reçu.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-visual">
+      <div class="dashboard-preview">
+        <div class="dash-header">
+          <div class="dash-title">Dashboard</div>
+          <div class="dash-date">Lun 16 Mars 2026</div>
+        </div>
+        <div class="dash-stats">
+          <div class="dash-stat"><div class="ds-label">Commandes</div><div class="ds-value">24</div><div class="ds-delta">+3 vs hier</div></div>
+          <div class="dash-stat"><div class="ds-label">CA du jour</div><div class="ds-value" style="font-size:15px">192k</div><div class="ds-delta">FCFA</div></div>
+          <div class="dash-stat"><div class="ds-label">En attente</div><div class="ds-value" style="color:#8B5A00">7</div><div class="ds-delta" style="color:#6B705C">à traiter</div></div>
+          <div class="dash-stat"><div class="ds-label">Stock bas</div><div class="ds-value" style="color:#C0392B">2</div><div class="ds-delta" style="color:#6B705C">produits</div></div>
+        </div>
+        <div class="dash-orders">
+          <div class="do-label">Dernières commandes</div>
+          <div class="order-row"><span class="or-id">#047</span><span class="or-name">Marie Fotso</span><span class="or-amount">22 500</span><span class="or-badge orb-new">Nouvelle</span></div>
+          <div class="order-row"><span class="or-id">#046</span><span class="or-name">Jean-Pierre M.</span><span class="or-amount">14 500</span><span class="or-badge orb-prep">En prépa.</span></div>
+          <div class="order-row"><span class="or-id">#045</span><span class="or-name">Cécile Nguema</span><span class="or-amount">38 000</span><span class="or-badge orb-done">Livrée</span></div>
+          <div class="order-row"><span class="or-id">#044</span><span class="or-name">Alain Bello</span><span class="or-amount">9 800</span><span class="or-badge orb-done">Livrée</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-eyebrow reveal">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Tarifs</span>
+    <div class="eyebrow-line"></div>
+  </div>
+  <h2 class="section-title reveal">Simple et <em>transparent.</em></h2>
+  <p class="section-sub reveal">Commencez gratuitement. Passez au Pro quand vous êtes prêt.</p>
+
+  <div class="pricing-grid reveal">
+    <div class="price-card">
+      <div class="plan-name">Gratuit</div>
+      <div class="price-amount">0</div>
+      <div class="price-unit">FCFA / mois — pour tester</div>
+      <ul class="price-features">
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Catalogue 10 produits</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>20 commandes par mois</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Page boutique publique</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>Paiement Mobile Money</li>
+      </ul>
+      <button class="price-cta cta-outline">Démarrer gratuitement</button>
+    </div>
+
+    <div class="price-card featured">
+      <div class="featured-badge">Le plus populaire</div>
+      <div class="plan-name">Pro</div>
+      <div class="price-amount">5 000</div>
+      <div class="price-unit">FCFA / mois + 1.5% / transaction</div>
+      <ul class="price-features">
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Catalogue illimité</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Commandes illimitées</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>MTN MoMo + Orange Money</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Statistiques de ventes</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Notifications in-app complètes</li>
+      </ul>
+      <button class="price-cta cta-solid">Passer au Pro</button>
+    </div>
+
+    <div class="price-card">
+      <div class="plan-name">Business</div>
+      <div class="price-amount">15 000</div>
+      <div class="price-unit">FCFA / mois + 1% / transaction</div>
+      <ul class="price-features">
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Tout le plan Pro</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>3 boutiques simultanées</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Livreurs assignés</li>
+        <li class="pf-item"><div class="pf-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>Rapports avancés export</li>
+      </ul>
+      <button class="price-cta cta-outline">Choisir Business</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="section-eyebrow reveal">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Témoignages</span>
+    <div class="eyebrow-line"></div>
+  </div>
+  <h2 class="section-title reveal">Ils ont <em>adopté</em> Boutiki.</h2>
+  <p class="section-sub reveal">Des commerçants de Douala et Yaoundé partagent leur expérience.</p>
+
+  <div class="testi-grid reveal">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Avant je perdais des commandes dans mes groupes WhatsApp. Maintenant tout est organisé et je vois mon argent arriver directement sur mon téléphone.</p>
+      <div class="testi-author">
+        <div class="ta-avatar" style="background:#2D6A4F">MS</div>
+        <div><div class="ta-name">Mama Solange</div><div class="ta-role">Boutique friperie — Akwa, Douala</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Mes clients partagent mon lien entre eux. J'ai doublé mes ventes en deux mois sans dépenser un franc en publicité.</p>
+      <div class="testi-author">
+        <div class="ta-avatar" style="background:#C0714A">JK</div>
+        <div><div class="ta-name">Jean Kamga</div><div class="ta-role">Restaurant Le Baobab — Bonapriso</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">La gestion du stock automatique m'a sauvée. Plus de ruptures surprises. Je reçois l'alerte avant même que le produit soit fini.</p>
+      <div class="testi-author">
+        <div class="ta-avatar" style="background:#1A5276">AF</div>
+        <div><div class="ta-name">Awa Fofana</div><div class="ta-role">Cosmétiques & beauté — Yaoundé</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="cta-box reveal">
+    <h2 class="cta-title">Votre boutique<br><em>vous attend.</em></h2>
+    <p class="cta-sub">Rejoignez 240 commerçants qui développent leur activité avec Boutiki. Gratuit pour commencer.</p>
+    <button class="cta-btn">
+      Créer ma boutique gratuitement
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <p class="cta-note">Aucune carte bancaire requise · Annulable à tout moment</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="nav-logo-icon" style="width:28px;height:28px;border-radius:7px">
+          <svg width="16" height="16" viewBox="0 0 44 44" fill="none"><path d="M7 22L13 13L23 27L29 18L37 27" stroke="#B7E4C7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="33" cy="13" r="4" fill="#95D5B2"/><path d="M7 35Q22 30 37 35" stroke="#52B788" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        Boutiki
+      </div>
+      <p class="footer-desc">La plateforme de commerce simplifié pour les entrepreneurs camerounais. Créez, vendez, encaissez.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Produit</div>
+      <ul class="footer-links">
+        <li><a href="#">Fonctionnalités</a></li>
+        <li><a href="#">Tarifs</a></li>
+        <li><a href="#">Démo</a></li>
+        <li><a href="#">Nouveautés</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Ressources</div>
+      <ul class="footer-links">
+        <li><a href="#">Guide de démarrage</a></li>
+        <li><a href="#">Centre d'aide</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Légal</div>
+      <ul class="footer-links">
+        <li><a href="#">Conditions d'utilisation</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">Mentions légales</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Boutiki. Tous droits réservés.</span>
+    <span class="footer-flag">🇨🇲 Fait avec fierté au Cameroun</span>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.querySelectorAll('.feature-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.feature-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    const icon = item.querySelector('.feature-icon svg');
+    if (icon) { icon.style.stroke = 'white'; }
+  });
+});
+</script>
+</body>
+</html>
