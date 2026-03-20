@@ -202,12 +202,17 @@ Le commerce informel au Cameroun utilise massivement WhatsApp pour vendre. Cela 
 
 ## 14) Phasage recommandé
 ### Phase 1 — MVP V1 (objectif: pilotes)
-- auth + profil boutique
-- produits + images
-- boutique publique + panier + commande
-- dashboard commandes + statuts
-- tracking public `/track/[trackingToken]`
-- notifications realtime côté commerçant
+- ✅ **Frontend onboarding** (3 étapes: compte, boutique, produits optionnels)
+- ✅ **Preview boutique** en temps réel pendant onboarding
+- ✅ **State management** Zustand avec persistence
+- ✅ **Validation** React Hook Form + Zod
+- ✅ **Composants UI** réutilisables (Input, Select, Textarea, FileUpload, Button)
+- 🔜 auth + profil boutique (backend Supabase)
+- 🔜 produits + images (backend Supabase Storage)
+- 🔜 boutique publique + panier + commande
+- 🔜 dashboard commandes + statuts
+- 🔜 tracking public `/track/[trackingToken]`
+- 🔜 notifications realtime côté commerçant
 
 **Checklist validation Phase 1**
 - création boutique < 10 minutes (profil + 10 produits)

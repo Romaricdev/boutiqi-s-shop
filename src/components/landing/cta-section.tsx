@@ -23,7 +23,7 @@ export function CtaSection() {
           </p>
 
           <Link
-            href="/auth/register"
+            href="/onboarding"
             className="group relative mt-9 inline-flex items-center gap-2.5 rounded-xl bg-white px-8 py-4 text-base font-bold text-brand-700 transition-all duration-300 hover:-translate-y-1 hover:bg-[#D8F3DC] hover:shadow-xl"
           >
             Créer ma boutique gratuitement

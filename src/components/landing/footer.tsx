@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { Logo } from "@/components/ui/logo";
+
 const columns = [
   {
     title: "Produit",
@@ -37,29 +39,7 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2.5">
-              <div className="grid size-7 place-items-center rounded-[7px] bg-brand-500">
-                <svg width="16" height="16" viewBox="0 0 44 44" fill="none">
-                  <path
-                    d="M7 22L13 13L23 27L29 18L37 27"
-                    stroke="#B7E4C7"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <circle cx="33" cy="13" r="4" fill="#95D5B2" />
-                  <path
-                    d="M7 35Q22 30 37 35"
-                    stroke="#52B788"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <span className="font-display text-[22px] tracking-[-0.5px] text-warm-50">
-                Boutiki
-              </span>
-            </div>
+            <Logo size={30} textColor="text-warm-50" />
             <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-warm-500">
               La plateforme de commerce simplifié pour les entrepreneurs
               camerounais. Créez, vendez, encaissez.

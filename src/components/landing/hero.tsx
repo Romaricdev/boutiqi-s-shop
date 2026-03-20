@@ -226,7 +226,7 @@ export function Hero() {
             style={{ animationDelay: "0.4s" }}
           >
             <Link
-              href="/auth/register"
+              href="/onboarding"
               className="group inline-flex items-center gap-2 rounded-[10px] bg-brand-500 px-7 py-3.5 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-brand-700 hover:shadow-lg"
             >
               Démarrer gratuitement

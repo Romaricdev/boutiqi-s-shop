@@ -170,7 +170,7 @@ export function Pricing() {
 
                 {p.available ? (
                   <Link
-                    href="/auth/register"
+                    href="/onboarding"
                     className={`mt-7 block w-full rounded-[10px] py-3 text-center text-sm font-semibold transition ${
                       p.featured
                         ? "bg-white text-brand-500 hover:bg-[#D8F3DC]"
