@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/cn";
 
 export default function NotFound() {
   return (
@@ -9,9 +9,16 @@ export default function NotFound() {
         <div className="font-display text-3xl text-warm-900">Page introuvable</div>
         <p className="mt-2 text-sm text-warm-500">Le lien demandé n’existe pas (ou plus).</p>
         <div className="mt-6 flex justify-center">
-          <Button asChild>
-            <Link href="/">Retour à l’accueil</Link>
-          </Button>
+          <Link
+            href="/"
+            className={cn(
+              "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-150 active:scale-[0.97]",
+              "h-10 px-5 text-sm",
+              "bg-brand-500 text-white shadow-sm hover:-translate-y-px hover:bg-brand-600 hover:shadow-md",
+            )}
+          >
+            Retour à l’accueil
+          </Link>
         </div>
       </div>
     </main>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/cn";
 
 export default function DemoShopPage({ params }: { params: { shopSlug: string } }) {
   const shopName = params.shopSlug.replaceAll("-", " ");
@@ -13,9 +14,16 @@ export default function DemoShopPage({ params }: { params: { shopSlug: string } 
             Démo UI uniquement (V1: commande sans paiement, sans stock).
           </p>
         </div>
-        <Button asChild>
-          <Link href="/">Retour</Link>
-        </Button>
+        <Link
+          href="/"
+          className={cn(
+            "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-150 active:scale-[0.97]",
+            "h-10 px-5 text-sm",
+            "bg-brand-500 text-white shadow-sm hover:-translate-y-px hover:bg-brand-600 hover:shadow-md",
+          )}
+        >
+          Retour
+        </Link>
       </div>
 
       <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
