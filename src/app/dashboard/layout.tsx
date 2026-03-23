@@ -7,6 +7,8 @@ import {
   LayoutDashboard,
   ShoppingBag,
   Package,
+  BarChart3,
+  Users2,
   Settings,
   LogOut,
   Store,
@@ -25,9 +27,18 @@ const GENERAL = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/orders", label: "Commandes", icon: ShoppingBag },
   { href: "/dashboard/products", label: "Catalogue", icon: Package },
+  { href: "/dashboard/analytics", label: "Statistiques", icon: BarChart3 },
+  { href: "/dashboard/customers", label: "Clients", icon: Users2 },
 ];
 
 const BOUTIQUE = [
+  { href: "/dashboard/settings", label: "Paramètres", icon: Settings },
+];
+
+const MOBILE_NAV = [
+  { href: "/dashboard", label: "Accueil", icon: LayoutDashboard },
+  { href: "/dashboard/orders", label: "Commandes", icon: ShoppingBag },
+  { href: "/dashboard/products", label: "Catalogue", icon: Package },
   { href: "/dashboard/settings", label: "Paramètres", icon: Settings },
 ];
 
@@ -37,15 +48,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
 
   return (
-    <div className="flex min-h-dvh bg-warm-50">
+    <div className="flex min-h-dvh bg-warm-50 font-sans">
       {/* Sidebar desktop - style Nexus */}
       <aside
         className={cn(
-          "hidden shrink-0 flex-col border-r border-warm-200 bg-white transition-[width] lg:flex",
+          "hidden shrink-0 flex-col border-r border-warm-200 bg-white/95 transition-[width] lg:flex",
           sidebarCollapsed ? "w-[72px]" : "w-60",
         )}
       >
-        <div className="flex h-14 items-center justify-between border-b border-warm-100 px-3">
+        <div className="flex h-16 items-center justify-between border-b border-warm-100 px-3.5">
           {!sidebarCollapsed && (
             <Logo size={28} href="/dashboard" />
           )}
@@ -61,9 +72,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </button>
         </div>
 
-        <nav className="flex flex-1 flex-col gap-1 overflow-auto py-3">
+        <nav className="flex flex-1 flex-col gap-1.5 overflow-auto py-4">
           {!sidebarCollapsed && (
-            <span className="px-4 text-[10px] font-semibold uppercase tracking-wider text-warm-400">
+            <span className="px-4 pb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-warm-400">
               Général
             </span>
           )}
@@ -75,20 +86,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={href}
                 href={href}
                 className={cn(
-                  "mx-2 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
+                  "mx-2.5 flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-medium transition-all duration-200 ease-out",
                   isActive
-                    ? "bg-warm-100 text-warm-900"
-                    : "text-warm-600 hover:bg-warm-50 hover:text-warm-800",
+                    ? "bg-warm-100 text-warm-900 shadow-sm"
+                    : "text-warm-600 hover:translate-x-[1px] hover:bg-warm-50 hover:text-warm-800 hover:shadow-sm",
                 )}
               >
-                <Icon className="size-5 shrink-0 text-warm-500" />
+                <Icon className="size-4.5 shrink-0 text-warm-500" />
                 {!sidebarCollapsed && <span>{label}</span>}
               </Link>
             );
           })}
 
           {!sidebarCollapsed && (
-            <span className="mt-4 px-4 text-[10px] font-semibold uppercase tracking-wider text-warm-400">
+            <span className="mt-5 px-4 pb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-warm-400">
               Boutique
             </span>
           )}
@@ -99,13 +110,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={href}
                 href={href}
                 className={cn(
-                  "mx-2 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
+                  "mx-2.5 flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-medium transition-all duration-200 ease-out",
                   isActive
-                    ? "bg-warm-100 text-warm-900"
-                    : "text-warm-600 hover:bg-warm-50 hover:text-warm-800",
+                    ? "bg-warm-100 text-warm-900 shadow-sm"
+                    : "text-warm-600 hover:translate-x-[1px] hover:bg-warm-50 hover:text-warm-800 hover:shadow-sm",
                 )}
               >
-                <Icon className="size-5 shrink-0 text-warm-500" />
+                <Icon className="size-4.5 shrink-0 text-warm-500" />
                 {!sidebarCollapsed && <span>{label}</span>}
               </Link>
             );
@@ -113,8 +124,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </nav>
 
         {!sidebarCollapsed && (
-          <div className="border-t border-warm-100 p-3">
-            <div className="mb-2 flex items-center gap-2 rounded-lg bg-warm-50 px-3 py-2">
+          <div className="border-t border-warm-100 p-3.5">
+            <div className="mb-2.5 flex items-center gap-2 rounded-xl bg-warm-50 px-3 py-2.5">
               <Store className="size-4 shrink-0 text-warm-500" />
               <span className="truncate text-xs font-medium text-warm-700">
                 {shop?.shopName ?? "Boutique"}
@@ -122,7 +133,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
             <Link
               href="/"
-              className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-warm-600 hover:bg-warm-50 hover:text-warm-800"
+              className="flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm text-warm-600 transition hover:bg-warm-50 hover:text-warm-800"
             >
               <LogOut className="size-5 shrink-0" />
               Quitter
@@ -189,7 +200,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Bottom nav mobile */}
         <nav className="fixed bottom-0 left-0 right-0 z-20 flex items-center justify-around border-t border-warm-200 bg-white py-2 lg:hidden">
-          {[...GENERAL, ...BOUTIQUE].map(({ href, label, icon: Icon }) => {
+          {MOBILE_NAV.map(({ href, label, icon: Icon }) => {
             const isActive =
               href === "/dashboard" ? pathname === "/dashboard" : pathname.startsWith(href);
             return (

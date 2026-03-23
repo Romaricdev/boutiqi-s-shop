@@ -120,7 +120,7 @@ export default function DashboardOrderDetailPage() {
               <Hash className="size-5 text-warm-500" />
             </div>
             <div>
-              <h1 className="font-display text-lg font-bold text-warm-900">
+              <h1 className="text-lg font-bold text-warm-900">
                 Commande #{order.id.slice(-6)}
               </h1>
               <p className="text-xs text-warm-400">

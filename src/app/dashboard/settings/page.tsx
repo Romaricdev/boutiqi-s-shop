@@ -101,7 +101,7 @@ export default function DashboardSettingsPage() {
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-xl font-bold text-warm-900 lg:text-2xl">Paramètres</h1>
+          <h1 className="text-xl font-bold text-warm-900 lg:text-2xl">Paramètres</h1>
           <p className="mt-1 text-sm text-warm-500">Profil de votre boutique (visible par les clients).</p>
         </div>
         <div className="flex items-center gap-2 text-xs text-warm-400">

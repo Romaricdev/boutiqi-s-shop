@@ -25,7 +25,7 @@ import {
 
 import { useDashboardStore } from "@/lib/store/dashboard";
 import { useCartStore } from "@/lib/store/cart";
-import type { DashboardProduct } from "@/lib/types/dashboard";
+import type { DashboardOrder, DashboardProduct, DeliveryType } from "@/lib/types/dashboard";
 import { cn } from "@/lib/cn";
 
 const DELIVERY_FEE = 1500;
@@ -751,22 +751,111 @@ function BottomTab({
 
 /* ═══ CART SHEET ═══ */
 function CartSheet() {
-  const { items, isOpen, closeCart, updateQuantity, removeItem, subtotal, totalItems } = useCartStore();
+  const { items, isOpen, closeCart, updateQuantity, removeItem, subtotal, totalItems, clearCart } = useCartStore();
   const total = subtotal() + (items.length > 0 ? DELIVERY_FEE : 0);
-  const { shop } = useDashboardStore();
+  const { shop, addOrder } = useDashboardStore();
+  const [customerName, setCustomerName] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return window.localStorage.getItem("boutiqi-checkout-name") ?? "";
+  });
+  const [customerPhone, setCustomerPhone] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return window.localStorage.getItem("boutiqi-checkout-phone") ?? "";
+  });
+  const [deliveryType, setDeliveryType] = useState<DeliveryType>(() => {
+    if (typeof window === "undefined") return "delivery";
+    const saved = window.localStorage.getItem("boutiqi-checkout-delivery");
+    return saved === "pickup" ? "pickup" : "delivery";
+  });
+  const [address, setAddress] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return window.localStorage.getItem("boutiqi-checkout-address") ?? "";
+  });
+  const [note, setNote] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return window.localStorage.getItem("boutiqi-checkout-note") ?? "";
+  });
+  const [error, setError] = useState<string | null>(null);
 
   const whatsappCheckout = () => {
     if (!shop) return;
+    const name = customerName.trim();
+    const phoneInput = customerPhone.replace(/\D/g, "");
+    const customerPhoneForOrder = phoneInput.startsWith("237") ? phoneInput.slice(3) : phoneInput;
+    const addressValue = address.trim();
+    const noteValue = note.trim();
+
+    if (!name) {
+      setError("Veuillez renseigner votre nom.");
+      return;
+    }
+    if (customerPhoneForOrder.length < 8) {
+      setError("Veuillez renseigner un numéro WhatsApp valide.");
+      return;
+    }
+    if (deliveryType === "delivery" && !addressValue) {
+      setError("Veuillez renseigner votre adresse de livraison.");
+      return;
+    }
+
+    setError(null);
+
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("boutiqi-checkout-name", name);
+      window.localStorage.setItem("boutiqi-checkout-phone", customerPhone);
+      window.localStorage.setItem("boutiqi-checkout-delivery", deliveryType);
+      window.localStorage.setItem("boutiqi-checkout-address", addressValue);
+      window.localStorage.setItem("boutiqi-checkout-note", noteValue);
+    }
+
     const phone = shop.whatsappPhone.replace(/\D/g, "");
     const num = phone.startsWith("237") ? phone : `237${phone}`;
+    const orderId = `ord-${Date.now().toString(36)}`;
+    const trackingToken = `tk_${Math.random().toString(36).slice(2, 9)}`;
+    const orderItems: DashboardOrder["items"] = items.map((i) => ({
+      productName: i.name,
+      productPrice: i.price,
+      quantity: i.quantity,
+      subtotal: i.price * i.quantity,
+    }));
+
+    addOrder({
+      id: orderId,
+      trackingToken,
+      status: "new",
+      customerName: name,
+      customerPhone: customerPhoneForOrder,
+      deliveryType,
+      address: deliveryType === "delivery" ? addressValue : undefined,
+      note: noteValue || undefined,
+      items: orderItems,
+      total,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+
     const lines = [
-      `Bonjour, je souhaite commander :`,
+      `Bonjour ${shop.shopName}`,
+      `J'espère que vous allez bien.`,
+      ``,
+      `Je souhaite passer cette commande :`,
       ...items.map((i) => `- ${i.name} x${i.quantity} = ${(i.price * i.quantity).toLocaleString()} F`),
+      ``,
+      `Client : ${name}`,
+      `Téléphone : ${customerPhoneForOrder}`,
+      `Mode : ${deliveryType === "delivery" ? "Livraison" : "Retrait sur place"}`,
+      ...(deliveryType === "delivery" ? [`Adresse : ${addressValue}`] : []),
+      ...(noteValue ? [`Note : ${noteValue}`] : []),
+      ``,
       `Sous-total : ${subtotal().toLocaleString()} FCFA`,
       `Livraison : ${DELIVERY_FEE.toLocaleString()} FCFA`,
       `Total : ${total.toLocaleString()} FCFA`,
+      ``,
+      `Merci beaucoup`,
     ];
     window.open(`https://wa.me/${num}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank");
+    clearCart();
+    closeCart();
   };
 
   return (
@@ -856,6 +945,70 @@ function CartSheet() {
 
             {items.length > 0 && (
               <div className="border-t border-warm-100 px-5 py-4">
+                <div className="mb-3 rounded-lg border border-warm-200 bg-warm-50/50 p-3">
+                  <p className="text-xs font-bold uppercase tracking-wide text-warm-600">Vos informations (rapide)</p>
+                  <p className="mt-0.5 text-[11px] text-warm-500">
+                    Déjà rempli ? Nous mémorisons vos infos sur cet appareil.
+                  </p>
+                  <div className="mt-2.5 space-y-2">
+                    <input
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      placeholder="Nom complet"
+                      className="h-9 w-full rounded-lg border border-warm-200 bg-white px-3 text-sm text-warm-900 outline-none placeholder:text-warm-400 focus:border-brand-400 focus:ring-1 focus:ring-brand-400/20"
+                    />
+                    <input
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value)}
+                      placeholder="Numéro WhatsApp"
+                      className="h-9 w-full rounded-lg border border-warm-200 bg-white px-3 text-sm text-warm-900 outline-none placeholder:text-warm-400 focus:border-brand-400 focus:ring-1 focus:ring-brand-400/20"
+                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setDeliveryType("delivery")}
+                        className={cn(
+                          "rounded-lg border px-3 py-2 text-xs font-semibold transition",
+                          deliveryType === "delivery"
+                            ? "border-brand-500 bg-brand-50 text-brand-700"
+                            : "border-warm-200 bg-white text-warm-600 hover:bg-warm-50",
+                        )}
+                      >
+                        Livraison
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeliveryType("pickup")}
+                        className={cn(
+                          "rounded-lg border px-3 py-2 text-xs font-semibold transition",
+                          deliveryType === "pickup"
+                            ? "border-brand-500 bg-brand-50 text-brand-700"
+                            : "border-warm-200 bg-white text-warm-600 hover:bg-warm-50",
+                        )}
+                      >
+                        Retrait
+                      </button>
+                    </div>
+                    {deliveryType === "delivery" && (
+                      <input
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        placeholder="Adresse de livraison"
+                        className="h-9 w-full rounded-lg border border-warm-200 bg-white px-3 text-sm text-warm-900 outline-none placeholder:text-warm-400 focus:border-brand-400 focus:ring-1 focus:ring-brand-400/20"
+                      />
+                    )}
+                    <textarea
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                      placeholder="Note (optionnelle)"
+                      rows={2}
+                      className="w-full resize-none rounded-lg border border-warm-200 bg-white px-3 py-2 text-sm text-warm-900 outline-none placeholder:text-warm-400 focus:border-brand-400 focus:ring-1 focus:ring-brand-400/20"
+                    />
+                  </div>
+                  {error && (
+                    <p className="mt-2 text-xs font-medium text-red-600">{error}</p>
+                  )}
+                </div>
                 <div className="space-y-1.5 text-sm">
                   <div className="flex justify-between text-warm-500">
                     <span>Sous-total</span>

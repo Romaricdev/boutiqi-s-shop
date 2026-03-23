@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, DM_Serif_Display } from "next/font/google";
+import { DM_Serif_Display } from "next/font/google";
 
 import "@/styles/globals.css";
 
-const fontBody = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
+/** Google Sans Flex : pas dans `next/font` (Next 14) — chargement via Google Fonts (aucun paquet npm). */
+const googleSansFlexHref =
+  "https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@8..144,100..900&display=swap";
 
 const fontDisplay = DM_Serif_Display({
   weight: ["400"],
@@ -24,8 +22,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${fontBody.variable} ${fontDisplay.variable}`}>
-      <body className="font-body antialiased">{children}</body>
+    <html lang="fr" className={fontDisplay.variable}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href={googleSansFlexHref} rel="stylesheet" />
+      </head>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

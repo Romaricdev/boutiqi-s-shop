@@ -3,6 +3,31 @@
 @tailwind utilities;
 
 :root {
+  /* Police UI : Google Sans Flex (Google Fonts — @font-face utilise ce nom) */
+  --font-body: "Google Sans Flex", system-ui, sans-serif;
+
+  /* shadcn/ui — aligné sur la charte Boutiqi (primary = vert brand) */
+  --background: 40 22% 96%;
+  --foreground: 30 10% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 30 10% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 30 10% 12%;
+  --primary: 152 40% 29%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 40 18% 92%;
+  --secondary-foreground: 30 10% 22%;
+  --muted: 40 15% 93%;
+  --muted-foreground: 30 6% 45%;
+  --ui-accent: 152 30% 94%;
+  --ui-accent-foreground: 152 40% 22%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 40 12% 88%;
+  --input: 40 12% 88%;
+  --ring: 152 40% 29%;
+  --radius: 0.75rem;
+
   --color-brand: #2d6a4f;
   --color-brand-light: #e8f5ec;
   --color-brand-dark: #1a3d2b;

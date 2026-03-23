@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   ShoppingBag,
@@ -10,8 +11,6 @@ import {
   Package,
   ExternalLink,
   ArrowRight,
-  Clock,
-  CheckCircle2,
   Truck,
   Users,
   MapPin,
@@ -142,7 +141,7 @@ export default function DashboardPage() {
     <div className="space-y-5">
       {/* Greeting */}
       <div>
-        <h1 className="font-display text-2xl font-bold text-warm-900">
+        <h1 className="text-2xl font-bold text-warm-900">
           {getGreeting()}{merchant?.fullName ? `, ${merchant.fullName.split(" ")[0]}` : ""}
         </h1>
         <p className="mt-0.5 text-sm text-warm-500">
@@ -475,7 +474,7 @@ function KpiCard({
   badge: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col justify-between rounded-xl border border-warm-200 bg-white px-5 py-5">
+    <div className="flex min-h-[124px] flex-col justify-between rounded-xl border border-warm-200 bg-white px-5 py-5">
       <div className="flex items-center gap-2 text-warm-500">
         {icon}
         <span className="text-xs font-medium">{label}</span>
@@ -512,6 +511,12 @@ function QrModal({
   value: string;
 }) {
   if (!open) return null;
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+  if (!mounted) return null;
 
   const v = value || "boutiki.cm";
   const { size, cells, isFinder } = pseudoQrGrid(v);
@@ -519,8 +524,8 @@ function QrModal({
   const pad = 10;
   const w = size * cell + pad * 2;
 
-  return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-warm-900/40 p-4" onClick={onClose}>
+  return createPortal(
+    <div className="fixed inset-0 z-50 grid place-items-center bg-warm-900/45 p-4 backdrop-blur-sm" onClick={onClose}>
       <div
         className="w-full max-w-sm rounded-2xl border border-warm-200 bg-white p-5 shadow-lg"
         onClick={(e) => e.stopPropagation()}
@@ -567,6 +572,7 @@ function QrModal({
           {v || "—"}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

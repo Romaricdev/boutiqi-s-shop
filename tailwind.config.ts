@@ -1,14 +1,55 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
+  darkMode: ["class"],
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        display: ["var(--font-display)", "Georgia", "serif"],
+        /** Google Sans Flex (Google Fonts → --font-body dans globals.css) */
+        sans: ["var(--font-body)", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
       },
       colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        /** Tokens sémantiques shadcn (évite le conflit avec la palette `accent` Boutiqi) */
+        uiAccent: {
+          DEFAULT: "hsl(var(--ui-accent))",
+          foreground: "hsl(var(--ui-accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        ringOffsetColor: {
+          background: "hsl(var(--background))",
+        },
         brand: {
           50: "#E8F5EC",
           100: "#C8E8D4",
@@ -56,6 +97,9 @@ const config: Config = {
         sm: "0 1px 3px rgba(28,26,23,0.07)",
         md: "0 2px 8px rgba(28,26,23,0.09)",
         lg: "0 4px 16px rgba(28,26,23,0.10)",
+        /** Ombres diffuses type dashboard « premium » (faible opacité, blur large) */
+        soft: "0 4px 24px -4px rgba(15, 23, 42, 0.07), 0 8px 32px -8px rgba(15, 23, 42, 0.05)",
+        "soft-sm": "0 2px 16px -2px rgba(15, 23, 42, 0.06), 0 4px 12px -4px rgba(15, 23, 42, 0.04)",
       },
       keyframes: {
         "fade-down": {
@@ -103,7 +147,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindcssAnimate],
 };
 
 export default config;

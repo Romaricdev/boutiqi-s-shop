@@ -198,7 +198,7 @@ export default function DashboardProductsPage() {
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-xl font-bold text-warm-900 lg:text-2xl">Catalogue</h1>
+          <h1 className="text-xl font-bold text-warm-900 lg:text-2xl">Catalogue</h1>
           <p className="mt-0.5 text-sm text-warm-500">
             {products.length} produit{products.length > 1 ? "s" : ""} &middot;{" "}
             {categories.length} catégorie{categories.length > 1 ? "s" : ""}

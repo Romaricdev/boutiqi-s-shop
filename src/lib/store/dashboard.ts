@@ -17,6 +17,8 @@ type DashboardState = {
   orders: DashboardOrder[];
   products: DashboardProduct[];
   categories: DashboardCategory[];
+  vipCustomerPhones: string[];
+  customerProfiles: Record<string, { notes: string; tags: string[] }>;
 
   setMerchant: (m: DashboardMerchant | null) => void;
   setShop: (s: DashboardShop | null) => void;
@@ -26,6 +28,8 @@ type DashboardState = {
 
   addOrder: (order: DashboardOrder) => void;
   updateOrderStatus: (orderId: string, status: OrderStatus) => void;
+  setCustomerVip: (phone: string, isVip: boolean) => void;
+  setCustomerProfile: (phone: string, updates: { notes?: string; tags?: string[] }) => void;
 
   addProduct: (product: Omit<DashboardProduct, "id">) => void;
   updateProduct: (id: string, updates: Partial<DashboardProduct>) => void;
@@ -162,6 +166,8 @@ export const useDashboardStore = create<DashboardState>()(
       orders: mockOrders,
       products: mockProducts,
       categories: mockCategories,
+      vipCustomerPhones: [],
+      customerProfiles: {},
 
       setMerchant: (merchant) => set({ merchant }),
       setShop: (shop) => set({ shop }),
@@ -176,6 +182,35 @@ export const useDashboardStore = create<DashboardState>()(
             o.id === orderId ? { ...o, status, updatedAt: new Date().toISOString() } : o,
           ),
         })),
+      setCustomerVip: (phone, isVip) =>
+        set((s) => {
+          const normalized = phone.replace(/\s+/g, "");
+          const has = s.vipCustomerPhones.includes(normalized);
+          if (isVip && !has) {
+            return { vipCustomerPhones: [...s.vipCustomerPhones, normalized] };
+          }
+          if (!isVip && has) {
+            return {
+              vipCustomerPhones: s.vipCustomerPhones.filter((p) => p !== normalized),
+            };
+          }
+          return { vipCustomerPhones: s.vipCustomerPhones };
+        }),
+      setCustomerProfile: (phone, updates) =>
+        set((s) => {
+          const normalized = phone.replace(/\s+/g, "");
+          const prev = s.customerProfiles[normalized] ?? { notes: "", tags: [] };
+          const next = {
+            notes: updates.notes ?? prev.notes,
+            tags: updates.tags ?? prev.tags,
+          };
+          return {
+            customerProfiles: {
+              ...s.customerProfiles,
+              [normalized]: next,
+            },
+          };
+        }),
 
       addProduct: (product) =>
         set((s) => ({
