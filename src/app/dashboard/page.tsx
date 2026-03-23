@@ -510,12 +510,12 @@ function QrModal({
   onClose: () => void;
   value: string;
 }) {
-  if (!open) return null;
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
     return () => setMounted(false);
   }, []);
+  if (!open) return null;
   if (!mounted) return null;
 
   const v = value || "boutiki.cm";
