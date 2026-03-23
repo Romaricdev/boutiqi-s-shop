@@ -205,7 +205,8 @@ export default function DashboardPage() {
           <div className="mt-6 flex items-end gap-2" style={{ height: 160 }}>
             {ordersByDay.map((d) => {
               const max = Math.max(1, ...ordersByDay.map((x) => x.count));
-              const h = (d.count / max) * 100;
+              const hasOrders = ordersByDay.some((x) => x.count > 0);
+              const barHeight = hasOrders ? Math.max(12, (d.count / max) * 130) : 10;
               return (
                 <div key={d.day} className="group flex flex-1 flex-col items-center">
                   <span className="mb-1 text-[10px] font-semibold text-warm-500 opacity-0 transition group-hover:opacity-100">
@@ -214,10 +215,10 @@ export default function DashboardPage() {
                   <div className="flex w-full flex-1 flex-col justify-end">
                     <div
                       className={cn(
-                        "mx-auto w-full max-w-[36px] rounded-t-md transition-colors",
+                        "mx-auto w-full max-w-[36px] rounded-t-md transition-all duration-300 ease-out",
                         d.isToday ? "bg-brand-500" : "bg-brand-200 group-hover:bg-brand-400",
                       )}
-                      style={{ height: `${Math.max(h, 3)}%` }}
+                      style={{ height: `${barHeight}px` }}
                     />
                   </div>
                   <span className={cn("mt-1.5 text-[11px]", d.isToday ? "font-bold text-warm-900" : "text-warm-400")}>
@@ -227,6 +228,11 @@ export default function DashboardPage() {
               );
             })}
           </div>
+          {!ordersByDay.some((x) => x.count > 0) && (
+            <p className="mt-2 text-center text-xs text-warm-400">
+              Pas encore de commandes cette semaine.
+            </p>
+          )}
 
           {/* Mini stats sous le graphe */}
           <div className="mt-4 grid grid-cols-3 gap-3 border-t border-warm-100 pt-3">
