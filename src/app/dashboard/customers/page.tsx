@@ -119,6 +119,9 @@ export default function DashboardCustomersPage() {
           lastOrderAt: order.createdAt,
           status: "recent",
           orderList: [order],
+          notes: "",
+          tags: [],
+          needsFollowUp: false,
         });
       } else {
         existing.orders += 1;
