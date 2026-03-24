@@ -628,7 +628,7 @@ function ProductDetailModal({
           </dl>
 
           <div className="flex flex-wrap justify-end gap-2 border-t border-warm-100 pt-4">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="secondary" onClick={onClose}>
               Fermer
             </Button>
             <Button type="button" onClick={() => onEdit(product)}>
