@@ -352,14 +352,18 @@ export default function AdminSettingsClient() {
             </label>
             <div className="grid gap-2 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wide text-neutral-400">Alerte SLA breach ></label>
+                <label className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+                  {"Alerte SLA breach >"}
+                </label>
                 <Input
                   value={String(alertThresholds.slaBreaches)}
                   onChange={(e) => patchAlertThresholds({ slaBreaches: Number(e.target.value || 0) })}
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wide text-neutral-400">Erreurs / min ></label>
+                <label className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+                  {"Erreurs / min >"}
+                </label>
                 <Input
                   value={String(alertThresholds.errorsPerMinute)}
                   onChange={(e) => patchAlertThresholds({ errorsPerMinute: Number(e.target.value || 0) })}

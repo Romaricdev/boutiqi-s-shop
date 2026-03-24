@@ -415,7 +415,7 @@ export default function AdminSupportClient() {
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">Historique d'actions</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">Historique des actions</p>
                   <div className="max-h-28 space-y-1 overflow-y-auto rounded-xl border border-neutral-200 p-3 text-xs text-neutral-600">
                     {selected.history.map((h) => (
                       <p key={h.id}>
