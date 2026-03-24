@@ -17,6 +17,7 @@ import {
   ShieldAlert,
   ShoppingCart,
   Store,
+  Tags,
   Users,
 } from "lucide-react";
 
@@ -55,6 +56,7 @@ const navGroups: NavGroup[] = [
     items: [
       { href: "/admin/analytics", label: "Statistiques", icon: BarChart3 },
       { href: "/admin/subscriptions", label: "Abonnements", icon: CreditCard },
+      { href: "/admin/subscriptions/plans", label: "Offres d'abonnement", icon: Tags },
     ],
   },
   {

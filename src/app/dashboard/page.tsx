@@ -22,8 +22,6 @@ import { ORDER_STATUS_LABELS, type OrderStatus } from "@/lib/types/dashboard";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 
-const BASE_URL = typeof window !== "undefined" ? window.location.origin : "";
-
 function getStartOfDay(d: Date) {
   const x = new Date(d);
   x.setHours(0, 0, 0, 0);
@@ -55,7 +53,8 @@ const STATUS_COLORS: Record<OrderStatus, string> = {
 
 export default function DashboardPage() {
   const { shop, orders, products, merchant } = useDashboardStore();
-  const shopUrl = shop ? `${BASE_URL}/shop/${shop.slug}` : "";
+  /** Chemin relatif — identique SSR / client (évite erreur d’hydratation). */
+  const shopPath = shop ? `/shop/${shop.slug}` : "";
   const [isQrOpen, setIsQrOpen] = useState(false);
 
   const totalRevenue = useMemo(
@@ -112,11 +111,16 @@ export default function DashboardPage() {
     return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
   }, [orders]);
 
-  const copyLink = useCallback(() => { if (shopUrl) navigator.clipboard.writeText(shopUrl); }, [shopUrl]);
+  const copyLink = useCallback(() => {
+    if (!shopPath) return;
+    const full = `${window.location.origin}${shopPath}`;
+    void navigator.clipboard.writeText(full);
+  }, [shopPath]);
   const shareWhatsApp = useCallback(() => {
-    if (!shopUrl || !shop) return;
-    window.open(`https://wa.me/?text=${encodeURIComponent(`Découvrez ma boutique : ${shopUrl}`)}`, "_blank");
-  }, [shopUrl, shop]);
+    if (!shopPath || !shop) return;
+    const full = `${window.location.origin}${shopPath}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(`Découvrez ma boutique : ${full}`)}`, "_blank");
+  }, [shopPath, shop]);
 
   const visitsThisMonth = useMemo(() => {
     // Mock analytics (backend à implémenter). Valeurs déterministes basées sur l'activité.
@@ -324,9 +328,9 @@ export default function DashboardPage() {
                   <Link2 className="size-4" />
                 </div>
                 <span className="min-w-0 flex-1 truncate font-mono text-xs font-semibold text-brand-700">
-                  {shopUrl ? shopUrl.replace(/^https?:\/\//, "") : "—"}
+                  {shopPath || "—"}
                 </span>
-                <Button type="button" size="sm" onClick={copyLink} disabled={!shopUrl} className="h-8 px-3 text-xs">
+                <Button type="button" size="sm" onClick={copyLink} disabled={!shopPath} className="h-8 px-3 text-xs">
                   Copier
                 </Button>
               </div>
@@ -348,12 +352,12 @@ export default function DashboardPage() {
               </div>
 
               <div className="mt-3 flex gap-2">
-                <Button type="button" variant="secondary" size="sm" onClick={shareWhatsApp} disabled={!shopUrl} className="flex-1">
+                <Button type="button" variant="secondary" size="sm" onClick={shareWhatsApp} disabled={!shopPath} className="flex-1">
                   Partager
                 </Button>
-                {shopUrl ? (
+                {shopPath ? (
                   <a
-                    href={shopUrl}
+                    href={shopPath}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex flex-1 items-center justify-center rounded-xl bg-brand-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-brand-700"
@@ -463,7 +467,17 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <QrModal open={isQrOpen} onClose={() => setIsQrOpen(false)} value={shopUrl} />
+      <QrModal
+        open={isQrOpen}
+        onClose={() => setIsQrOpen(false)}
+        value={
+          shopPath
+            ? typeof window !== "undefined"
+              ? `${window.location.origin}${shopPath}`
+              : shopPath
+            : ""
+        }
+      />
     </div>
   );
 }

@@ -1,16 +1,13 @@
-import { ShoppingCart } from "lucide-react";
+import { Suspense } from "react";
 
-import { AdminPlaceholderPage } from "@/components/admin/admin-placeholder-page";
+import { AdminOrdersListSkeleton } from "@/components/admin/admin-orders-skeleton";
+
+import AdminOrdersClient from "./admin-orders-client";
 
 export default function AdminOrdersPage() {
   return (
-    <AdminPlaceholderPage
-      title="Commandes"
-      description="Vue agrégée des commandes passées via les boutiques (WhatsApp / lien) — suivi et export."
-      icon={ShoppingCart}
-      badges={["1 847 (30 j.)", "Données démo"]}
-      cardTitle="Toutes les commandes"
-      cardHint="Filtres par statut, boutique, période et recherche client."
-    />
+    <Suspense fallback={<AdminOrdersListSkeleton />}>
+      <AdminOrdersClient />
+    </Suspense>
   );
 }

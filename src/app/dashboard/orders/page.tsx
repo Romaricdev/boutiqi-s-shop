@@ -880,24 +880,46 @@ function OrderRecapModal({ order, onClose }: { order: DashboardOrder | null; onC
             </div>
           )}
 
-          <div className="overflow-hidden rounded-lg border border-warm-200">
-            <div className="grid grid-cols-[1fr_auto_auto] gap-2 border-b border-warm-100 bg-warm-50/60 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-warm-500">
-              <span>Article</span>
-              <span className="text-right">Qté</span>
-              <span className="text-right">Sous-total</span>
-            </div>
-            <div className="divide-y divide-warm-100 bg-white">
-              {order.items.map((item, i) => (
-                <div key={`${item.productName}-${i}`} className="grid grid-cols-[1fr_auto_auto] gap-2 px-3 py-2.5 text-sm">
-                  <div>
-                    <p className="font-medium text-warm-900">{item.productName}</p>
-                    <p className="text-xs text-warm-500">{item.productPrice.toLocaleString()} F / unité</p>
-                  </div>
-                  <span className="self-center text-right font-medium text-warm-700">{item.quantity}</span>
-                  <span className="self-center text-right font-semibold text-warm-900">{item.subtotal.toLocaleString()} F</span>
-                </div>
-              ))}
-            </div>
+          <div className="overflow-x-auto overflow-y-hidden rounded-lg border border-warm-200">
+            <table className="w-full min-w-[280px] border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-warm-100 bg-warm-50/60 text-[11px] font-semibold uppercase tracking-wide text-warm-500">
+                  <th scope="col" className="px-3 py-2 text-left font-semibold">
+                    Article
+                  </th>
+                  <th
+                    scope="col"
+                    className="w-16 min-w-[4.5rem] whitespace-nowrap px-2 py-2 text-center font-semibold"
+                  >
+                    Qté
+                  </th>
+                  <th
+                    scope="col"
+                    className="min-w-[7.5rem] whitespace-nowrap px-3 py-2 text-right font-semibold"
+                  >
+                    Sous-total
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-warm-100 bg-white">
+                {order.items.map((item, i) => (
+                  <tr key={`${item.productName}-${i}`}>
+                    <td className="px-3 py-2.5 align-middle">
+                      <p className="font-medium text-warm-900">{item.productName}</p>
+                      <p className="mt-0.5 text-xs text-warm-500">
+                        {item.productPrice.toLocaleString()} F / unité
+                      </p>
+                    </td>
+                    <td className="w-16 min-w-[4.5rem] whitespace-nowrap px-2 py-2.5 text-center align-middle font-medium text-warm-700 tabular-nums">
+                      {item.quantity}
+                    </td>
+                    <td className="min-w-[7.5rem] whitespace-nowrap px-3 py-2.5 text-right align-middle font-semibold text-warm-900 tabular-nums">
+                      {item.subtotal.toLocaleString()} F
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
           <div className="flex items-center justify-between rounded-lg border border-brand-200 bg-brand-50 px-3 py-2.5">

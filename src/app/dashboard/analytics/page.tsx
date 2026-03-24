@@ -1,8 +1,20 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { BarChart3, ShoppingBag, Users2, Wallet, Truck, Store, CircleAlert, Package, TrendingUp, Users } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
+import {
+  BarChart3,
+  ShoppingBag,
+  Users2,
+  Wallet,
+  Truck,
+  Store,
+  CircleAlert,
+  Package,
+  TrendingUp,
+  Users,
+} from "lucide-react";
 
+import { AnalyticsSmoothChart } from "@/components/dashboard/analytics-smooth-chart";
 import { useDashboardStore } from "@/lib/store/dashboard";
 import { ORDER_STATUS_LABELS, type OrderStatus } from "@/lib/types/dashboard";
 import { cn } from "@/lib/cn";
@@ -21,7 +33,6 @@ function dayLabel(offset: number) {
 
 type Period = 7 | 30 | 90;
 type ChartMetric = "orders" | "revenue" | "customers";
-type ChartView = "bars" | "line";
 
 const PERIOD_OPTIONS: { value: Period; label: string }[] = [
   { value: 7, label: "7 jours" },
@@ -38,7 +49,6 @@ export default function DashboardAnalyticsPage() {
   const { orders } = useDashboardStore();
   const [period, setPeriod] = useState<Period>(30);
   const [chartMetric, setChartMetric] = useState<ChartMetric>("orders");
-  const [chartView, setChartView] = useState<ChartView>("bars");
 
   const now = Date.now();
   const periodStart = now - period * 24 * 60 * 60 * 1000;
@@ -102,21 +112,6 @@ export default function DashboardAnalyticsPage() {
       })),
     [chartLast7Days, chartMetric],
   );
-  const maxChartValue = Math.max(1, ...chartData.map((d) => d.value));
-  const chartPoints = useMemo(() => {
-    const width = 100;
-    const height = 100;
-    const n = Math.max(1, chartData.length - 1);
-    return chartData.map((d, i) => {
-      const x = (i / n) * width;
-      const y = height - (d.value / maxChartValue) * height;
-      return { x, y, value: d.value, label: d.label };
-    });
-  }, [chartData, maxChartValue]);
-  const linePath = useMemo(() => {
-    if (chartPoints.length === 0) return "";
-    return chartPoints.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(" ");
-  }, [chartPoints]);
   const maxChartPoint = useMemo(
     () => chartData.reduce((best, cur) => (cur.value > best.value ? cur : best), chartData[0] ?? { label: "—", value: 0 }),
     [chartData],
@@ -182,24 +177,43 @@ export default function DashboardAnalyticsPage() {
   const followUpRate = customers > 0 ? Math.round((relaunchCount / customers) * 100) : 0;
   const dominantDeliveryMode = deliverySplit.delivery >= deliverySplit.pickup ? "Livraison" : "Retrait";
 
-  const exportCsv = () => {
-    const lines: string[] = [];
-    lines.push("Section,Label,Value");
-    lines.push(`Resume,Periode,${period} jours`);
-    lines.push(`KPI,Commandes,${periodOrders.length}`);
-    lines.push(`KPI,Chiffre d'affaires,${totalRevenue}`);
-    lines.push(`KPI,Clients,${customers}`);
-    lines.push(`KPI,Panier moyen,${averageBasket}`);
-    lines.push(`KPI,Taux annulation (%),${cancellationRate}`);
-    lines.push(`KPI,Clients a relancer,${relaunchCount}`);
-    lines.push(`KPI,Tendance revenu (%),${revenueTrend}`);
-    lines.push(`Livraison,Livraison,${deliverySplit.delivery}`);
-    lines.push(`Livraison,Retrait,${deliverySplit.pickup}`);
-    statusBreakdown.forEach((s) => lines.push(`Statuts,${s.label},${s.count}`));
-    topProducts.forEach(([name, qty]) => lines.push(`Top produits,${name},${qty}`));
-    chartData.forEach((d) => lines.push(`Graphe ${chartMetric},${d.label},${d.value}`));
+  const exportRows = useMemo((): (string | number)[][] => {
+    const rows: (string | number)[][] = [
+      ["Section", "Label", "Value"],
+      ["Resume", "Periode", `${period} jours`],
+      ["KPI", "Commandes", periodOrders.length],
+      ["KPI", "Chiffre d'affaires", totalRevenue],
+      ["KPI", "Clients", customers],
+      ["KPI", "Panier moyen", averageBasket],
+      ["KPI", "Taux annulation (%)", cancellationRate],
+      ["KPI", "Clients a relancer", relaunchCount],
+      ["KPI", "Tendance revenu (%)", revenueTrend],
+      ["Livraison", "Livraison", deliverySplit.delivery],
+      ["Livraison", "Retrait", deliverySplit.pickup],
+    ];
+    statusBreakdown.forEach((s) => rows.push(["Statuts", s.label, s.count]));
+    topProducts.forEach(([name, qty]) => rows.push(["Top produits", name, qty]));
+    chartData.forEach((d) => rows.push([`Graphe ${chartMetric}`, d.label, d.value]));
+    return rows;
+  }, [
+    period,
+    periodOrders.length,
+    totalRevenue,
+    customers,
+    averageBasket,
+    cancellationRate,
+    relaunchCount,
+    revenueTrend,
+    deliverySplit.delivery,
+    deliverySplit.pickup,
+    statusBreakdown,
+    topProducts,
+    chartData,
+    chartMetric,
+  ]);
 
-    const csv = lines.join("\n");
+  const exportCsv = useCallback(() => {
+    const csv = exportRows.map((row) => row.join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -209,7 +223,15 @@ export default function DashboardAnalyticsPage() {
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
-  };
+  }, [exportRows, period]);
+
+  const exportXlsx = useCallback(async () => {
+    const XLSX = await import("xlsx");
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(exportRows);
+    XLSX.utils.book_append_sheet(wb, ws, "Statistiques");
+    XLSX.writeFile(wb, `boutiqi-stats-${period}j.xlsx`);
+  }, [exportRows, period]);
 
   return (
     <div className="space-y-5">
@@ -218,7 +240,7 @@ export default function DashboardAnalyticsPage() {
           <h1 className="text-xl font-bold text-warm-900 lg:text-2xl">Statistiques</h1>
           <p className="mt-0.5 text-sm text-warm-500">Suivez les performances de votre boutique.</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <div className="inline-flex rounded-lg border border-warm-200 bg-white p-1">
             {PERIOD_OPTIONS.map((opt) => (
               <button
@@ -240,6 +262,13 @@ export default function DashboardAnalyticsPage() {
             className="rounded-lg border border-warm-200 bg-white px-3 py-2 text-xs font-semibold text-warm-700 transition hover:bg-warm-50"
           >
             Exporter CSV
+          </button>
+          <button
+            type="button"
+            onClick={() => void exportXlsx()}
+            className="rounded-lg border border-warm-200 bg-white px-3 py-2 text-xs font-semibold text-warm-700 transition hover:bg-warm-50"
+          >
+            Exporter XLSX
           </button>
         </div>
       </div>
@@ -274,12 +303,12 @@ export default function DashboardAnalyticsPage() {
       <div className="grid gap-4 xl:grid-cols-5">
         <section className="rounded-lg border border-warm-200 bg-white p-5 xl:col-span-3">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-warm-900">Graphe (7 derniers jours)</h2>
+            <h2 className="text-sm font-semibold text-warm-900">Courbe (7 derniers jours)</h2>
             <span className="text-xs text-warm-500">
               {last7Orders} commandes · {delivered} livrées
             </span>
           </div>
-          <div className="mb-3 inline-flex rounded-lg border border-warm-200 bg-white p-1">
+          <div className="mb-4 inline-flex rounded-lg border border-warm-200 bg-white p-1">
             {CHART_METRICS.map((m) => (
               <button
                 key={m.value}
@@ -294,75 +323,10 @@ export default function DashboardAnalyticsPage() {
               </button>
             ))}
           </div>
-          <div className="mb-3 inline-flex rounded-lg border border-warm-200 bg-white p-1">
-            <button
-              type="button"
-              onClick={() => setChartView("bars")}
-              className={cn(
-                "rounded-md px-3 py-1.5 text-xs font-semibold transition",
-                chartView === "bars" ? "bg-warm-900 text-white" : "text-warm-600 hover:bg-warm-50",
-              )}
-            >
-              Barres
-            </button>
-            <button
-              type="button"
-              onClick={() => setChartView("line")}
-              className={cn(
-                "rounded-md px-3 py-1.5 text-xs font-semibold transition",
-                chartView === "line" ? "bg-warm-900 text-white" : "text-warm-600 hover:bg-warm-50",
-              )}
-            >
-              Courbe
-            </button>
-          </div>
 
-          {chartView === "bars" ? (
-            <div className="flex items-end gap-2" style={{ height: 180 }}>
-              {chartData.map((d) => (
-                <div key={d.label} className="group flex flex-1 flex-col items-center">
-                  <span className="mb-1 text-[10px] font-semibold text-warm-500 opacity-0 transition group-hover:opacity-100">
-                    {chartMetric === "revenue" ? `${d.value.toLocaleString()} F` : d.value}
-                  </span>
-                  <div
-                    className="w-full rounded-t-md bg-brand-300 transition-all duration-300 ease-out group-hover:bg-brand-500"
-                    style={{ height: `${Math.max(10, (d.value / maxChartValue) * 140)}px` }}
-                  />
-                  <span className="mt-2 text-[11px] text-warm-500">{d.label}</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="rounded-lg border border-warm-100 bg-warm-50/30 px-2 py-3">
-              <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-[160px] w-full">
-                <defs>
-                  <linearGradient id="chartLineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#2D6A4F" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#2D6A4F" stopOpacity="0.03" />
-                  </linearGradient>
-                </defs>
-                {[20, 40, 60, 80].map((y) => (
-                  <line key={y} x1="0" y1={y} x2="100" y2={y} stroke="#E8E3D9" strokeWidth="0.35" />
-                ))}
-                {linePath && (
-                  <>
-                    <path d={`${linePath} L 100 100 L 0 100 Z`} fill="url(#chartLineGrad)" />
-                    <path d={linePath} fill="none" stroke="#2D6A4F" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </>
-                )}
-                {chartPoints.map((p) => (
-                  <circle key={`${p.label}-${p.x}`} cx={p.x} cy={p.y} r="1.8" fill="#2D6A4F" />
-                ))}
-              </svg>
-              <div className="mt-2 grid grid-cols-7 gap-1">
-                {chartData.map((d) => (
-                  <div key={d.label} className="text-center text-[11px] text-warm-500">
-                    {d.label}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <div className="rounded-xl border border-warm-100 bg-white px-1 pb-1 pt-3 sm:px-2">
+            <AnalyticsSmoothChart data={chartData} chartMetric={chartMetric} />
+          </div>
         </section>
 
         <section className="rounded-lg border border-warm-200 bg-white p-5 xl:col-span-2">

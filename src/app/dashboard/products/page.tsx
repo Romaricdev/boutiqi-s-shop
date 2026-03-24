@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useCallback, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -18,6 +19,7 @@ import {
   MoreHorizontal,
   FolderPlus,
   Check,
+  Info,
 } from "lucide-react";
 
 import { useDashboardStore } from "@/lib/store/dashboard";
@@ -65,6 +67,7 @@ export default function DashboardProductsPage() {
   const [categoryDraft, setCategoryDraft] = useState("");
   const [editingCategory, setEditingCategory] = useState<DashboardCategory | null>(null);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [viewingProduct, setViewingProduct] = useState<DashboardProduct | null>(null);
 
   const categoriesSorted = useMemo(() => {
     const base = [...categories].sort((a, b) => a.name.localeCompare(b.name, "fr"));
@@ -389,6 +392,10 @@ export default function DashboardProductsPage() {
                   key={p.id}
                   product={p}
                   categoryLabel={categoryNameById.get(p.category) ?? "Autre"}
+                  onView={() => {
+                    setViewingProduct(p);
+                    setOpenMenuId(null);
+                  }}
                   onEdit={() => openEdit(p)}
                   onToggle={() => updateProduct(p.id, { isActive: !p.isActive })}
                   onRemove={() => removeProduct(p.id)}
@@ -415,6 +422,7 @@ export default function DashboardProductsPage() {
                       key={p.id}
                       product={p}
                       categoryLabel={categoryNameById.get(p.category) ?? "Autre"}
+                      onView={() => setViewingProduct(p)}
                       onEdit={() => openEdit(p)}
                       onToggle={() => updateProduct(p.id, { isActive: !p.isActive })}
                       onRemove={() => removeProduct(p.id)}
@@ -426,6 +434,18 @@ export default function DashboardProductsPage() {
           )}
         </section>
       </div>
+
+      <ProductDetailModal
+        product={viewingProduct}
+        categoryLabel={
+          viewingProduct ? categoryNameById.get(viewingProduct.category) ?? "Autre" : ""
+        }
+        onClose={() => setViewingProduct(null)}
+        onEdit={(p) => {
+          setViewingProduct(null);
+          openEdit(p);
+        }}
+      />
     </div>
   );
 }
@@ -501,9 +521,131 @@ function CategoryBtn({
   );
 }
 
+function ProductDetailModal({
+  product,
+  categoryLabel,
+  onClose,
+  onEdit,
+}: {
+  product: DashboardProduct | null;
+  categoryLabel: string;
+  onClose: () => void;
+  onEdit: (p: DashboardProduct) => void;
+}) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  useEffect(() => {
+    if (!product) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [product, onClose]);
+
+  if (!product || !mounted) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-xl border border-warm-200 bg-white shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sticky top-0 flex items-center justify-between border-b border-warm-100 bg-white px-4 py-3">
+          <div>
+            <p className="text-xs text-warm-500">Fiche produit</p>
+            <p className="text-sm font-semibold text-warm-900">{product.name}</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="grid size-8 place-items-center rounded-md border border-warm-200 text-warm-500 hover:bg-warm-50"
+            aria-label="Fermer"
+          >
+            <X className="size-4" />
+          </button>
+        </div>
+
+        <div className="space-y-4 px-4 py-4">
+          <div className="overflow-hidden rounded-xl border border-warm-100 bg-warm-50">
+            {product.imageUrl ? (
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className="aspect-[4/3] w-full object-cover"
+              />
+            ) : (
+              <div className="flex aspect-[4/3] w-full items-center justify-center">
+                <Package className="size-14 text-warm-300" />
+              </div>
+            )}
+          </div>
+
+          <dl className="grid gap-3 text-sm">
+            <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-warm-100 pb-2">
+              <dt className="text-xs font-medium uppercase tracking-wide text-warm-500">Prix</dt>
+              <dd className="text-lg font-bold text-brand-600">
+                {product.price.toLocaleString()} FCFA
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-warm-100 pb-2">
+              <dt className="text-xs font-medium uppercase tracking-wide text-warm-500">Catégorie</dt>
+              <dd className="font-medium text-warm-800">{categoryLabel}</dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-warm-100 pb-2">
+              <dt className="text-xs font-medium uppercase tracking-wide text-warm-500">Statut</dt>
+              <dd>
+                <span
+                  className={cn(
+                    "inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase",
+                    product.isActive ? "bg-green-50 text-green-600" : "bg-warm-100 text-warm-500",
+                  )}
+                >
+                  {product.isActive ? "Actif" : "Inactif"}
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-medium uppercase tracking-wide text-warm-500">Description</dt>
+              <dd className="mt-1 whitespace-pre-wrap text-warm-700">
+                {product.description?.trim() ? product.description : "Aucune description renseignée."}
+              </dd>
+            </div>
+            <div className="rounded-lg bg-warm-50 px-2.5 py-2">
+              <dt className="text-[10px] font-medium uppercase tracking-wide text-warm-400">
+                Identifiant interne
+              </dt>
+              <dd className="mt-0.5 font-mono text-xs text-warm-600">{product.id}</dd>
+            </div>
+          </dl>
+
+          <div className="flex flex-wrap justify-end gap-2 border-t border-warm-100 pt-4">
+            <Button type="button" variant="outline" onClick={onClose}>
+              Fermer
+            </Button>
+            <Button type="button" onClick={() => onEdit(product)}>
+              Modifier
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 function ProductCardGrid({
   product: p,
   categoryLabel,
+  onView,
   onEdit,
   onToggle,
   onRemove,
@@ -512,6 +654,7 @@ function ProductCardGrid({
 }: {
   product: DashboardProduct;
   categoryLabel: string;
+  onView: () => void;
   onEdit: () => void;
   onToggle: () => void;
   onRemove: () => void;
@@ -584,7 +727,8 @@ function ProductCardGrid({
               <MoreHorizontal className="size-4" />
             </button>
             {menuOpen && (
-              <div className="absolute right-0 top-full z-30 mt-1 w-44 animate-in fade-in slide-in-from-top-1 rounded-xl border border-warm-200 bg-white p-1.5 shadow-xl shadow-warm-900/8">
+              <div className="absolute right-0 top-full z-30 mt-1 w-48 animate-in fade-in slide-in-from-top-1 rounded-xl border border-warm-200 bg-white p-1.5 shadow-xl shadow-warm-900/8">
+                <MenuAction icon={<Info className="size-3.5" />} label="Consulter la fiche" onClick={onView} />
                 <MenuAction icon={<Pencil className="size-3.5" />} label="Modifier" onClick={onEdit} />
                 <MenuAction
                   icon={p.isActive ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
@@ -611,12 +755,14 @@ function ProductCardGrid({
 function ProductRowList({
   product: p,
   categoryLabel,
+  onView,
   onEdit,
   onToggle,
   onRemove,
 }: {
   product: DashboardProduct;
   categoryLabel: string;
+  onView: () => void;
   onEdit: () => void;
   onToggle: () => void;
   onRemove: () => void;
@@ -660,6 +806,15 @@ function ProductRowList({
       </td>
       <td className="py-3 pl-2 pr-4">
         <div className="flex items-center justify-end gap-1">
+          <button
+            type="button"
+            onClick={onView}
+            className="grid size-7 place-items-center rounded-lg text-warm-400 transition hover:bg-warm-100 hover:text-warm-600"
+            title="Consulter la fiche"
+            aria-label="Consulter la fiche produit"
+          >
+            <Info className="size-3.5" />
+          </button>
           <button
             type="button"
             onClick={onToggle}
